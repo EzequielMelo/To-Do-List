@@ -1,5 +1,6 @@
 import userImageProfile from "../assets/userImgProfile.png"
 
+// eslint-disable-next-line react/prop-types
 export const UserProfile = ({ toggle }) => {
   return (
     <div className={`flex gap-5 items-center ${toggle ? "bg-none transition-all duration-300 delay-200"  : "bg-white rounded-xl p-2"}`}>

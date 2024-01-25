@@ -1,5 +1,6 @@
 import { datas } from "../Data"
 
+// eslint-disable-next-line react/prop-types
 const SideBarData = ({ toggle }) => {
   return (
     <div className=''>
