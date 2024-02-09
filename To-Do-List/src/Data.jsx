@@ -1,50 +1,41 @@
 import { RxDashboard } from "react-icons/rx"
-import { MdInsights } from "react-icons/md"
-import { RiCouponLine } from "react-icons/ri"
-import { FiUser, FiLogOut } from "react-icons/fi"
-import { AiOutlineMessage } from "react-icons/ai"
-import { BsFolder, BsWallet2 } from "react-icons/bs"
+import { FiLogOut } from "react-icons/fi"
+import { RiHistoryFill } from "react-icons/ri";
+import { FaCheckDouble } from "react-icons/fa6";
+import { TbListCheck } from "react-icons/tb";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+
 
 export const datas = [
     {
     id: 1,
-    icon: <RxDashboard />,
-    text: "Dashboard",
+    icon: <MdOutlineDashboardCustomize />,
+    text: "Nuevo Tablero",
     },
     {
     id: 2,
-    icon: <MdInsights />,
-    text: "Sales Insights",
+    icon: <TbListCheck />,
+    text: "Nueva Lista",
     },
     {
     id: 3,
-    icon: <RiCouponLine />,
-    text: "Coupons",
+    icon: <FaCheckDouble />,
+    text: "Completadas",
     },
     {
     id: 4,
-    icon: <FiUser />,
-    text: "Team Member",
+    icon: <RiHistoryFill />,
+    text: "Historial",
     },
     {
     id: 5,
-    icon: <AiOutlineMessage />,
-    text: "Messages",
+    icon: <RxDashboard />,
+    text: "Mis Tableros",
     },
     {
     id: 6,
-    icon: <BsFolder />,
-    text: "File Manager",
-    },
-    {
-    id: 7,
-    icon: <BsWallet2 />,
-    text: "Wallet",
-    },
-    {
-    id: 8,
     icon: <FiLogOut />,
-    text: "Logout",
+    text: "Salir",
     },
     
 ];
