@@ -7,7 +7,7 @@ function App() {
   return (
     <div className='w-full h-screen bg-back object-cover flex items-center'>
      <Sidebar />
-     <Board initialBoard={'Nombre de la Tabla'}/>
+     <Board initialBoardName={'Nombre de la Tabla'}/>
     </div>
   )
 }

@@ -8,10 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        glass: "rgba(255,255,255,0,25)",
-        brown: "rgb(30, 30, 17)"
+        glass: "rgba(10, 9, 24, 0.7)",
+        grey: "rgb(158,172,186)",
+        bhind: "rgb(0, 0, 0)"
       }
     },
+    backgroundImage : {
+      back : "url(./assets/background.png)"
+    }
   },
   plugins: [],
 }

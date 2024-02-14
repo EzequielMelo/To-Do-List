@@ -15,13 +15,13 @@
   }
   .sidebar-container {
     @apply bg-glass h-[98%] w-[20rem] rounded-3xl ml-6 p-4 
-    border transition-all duration-500 border-solid border-glass relative
+    border transition-all duration-500 border-solid border-bhind relative
   }
   .sidebar {
-    @apply flex items-center mt-2 p-4 rounded-lg cursor-pointer hover:bg-white transition-all duration-300
+    @apply flex items-center mt-2 p-4 rounded-lg cursor-pointer hover:bg-slate-900 transition-all duration-300 
   }
-  .board-container {
+  .list-container {
     @apply bg-glass h-[98%] w-[92%] rounded-3xl ml-6 p-4 
-    border transition-all duration-500 border-solid border-glass relative mr-5
+    border transition-all duration-500 border-solid border-bhind relative mr-5
   }
 }
