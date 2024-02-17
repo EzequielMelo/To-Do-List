@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { BiChevronLeft } from "react-icons/bi"
 import UserProfile from "./components/UserProfile";
 import SideBarData from "./components/SideBarData";
 
 
+// eslint-disable-next-line react/prop-types
 const Sidebar = ({ onSidebarItemClick }) => {
     const [toggle, setToggle] = useState(false)
     const [clickedItem, setClickedItem] = useState(null)

@@ -29,7 +29,7 @@ const Board = ({ initialBoardName, initialListName }) => {
     useEffect(() => {
         if (initialListName !== null) {
             //console.log("Ítem clickeado:", initialListName);
-            setLists(prevLists => [...prevLists, <List key={`list-${prevLists.length}`} />]);
+            setLists(prevLists => [...prevLists, <List initialListName={'Nombre de la Lista'} key={`list-${prevLists.length}`} />]);
         }
     }, [initialListName]);
 
@@ -37,9 +37,9 @@ const Board = ({ initialBoardName, initialListName }) => {
         <div className={`list-container`}>
             {!isEditing 
             ? 
-            (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px]' onClick={handleClick}>{boardName}<MdEdit /></h3>) 
+            (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{boardName}<MdEdit /></h3>) 
             : 
-            (<input className='bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px]' type="text" value={customText} onChange={handleChange} onBlur={handleBlur}autoFocus/>)}
+            (<input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur}autoFocus/>)}
             {lists.map(list => list)}
         </div>
     );
