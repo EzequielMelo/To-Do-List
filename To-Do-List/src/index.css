@@ -22,6 +22,6 @@
   }
   .list-container {
     @apply bg-glass h-[98%] w-[92%] rounded-3xl ml-6 p-4 
-    border transition-all duration-500 border-solid border-bhind relative mr-5
+    border transition-all duration-500 border-solid border-bhind relative mr-5 
   }
 }

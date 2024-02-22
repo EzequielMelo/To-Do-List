@@ -7,7 +7,7 @@ import SideBarData from "./components/SideBarData";
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ onSidebarItemClick }) => {
     const [toggle, setToggle] = useState(false)
-    const [clickedItem, setClickedItem] = useState(null)
+    const [clickedItem, setClickedItem] = useState()
 
     const handleItemClick = (item) => {
         setClickedItem(item);
@@ -15,6 +15,8 @@ const Sidebar = ({ onSidebarItemClick }) => {
             onSidebarItemClick(item); // Llama a la función proporcionada por el padre
         }
     };
+    
+    console.log(clickedItem);
     
     return(
        <div className= {`${toggle ? "w-[5.8rem]" : ""} sidebar-container`}>

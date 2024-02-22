@@ -5,14 +5,14 @@ import Board from './components/Board'
 
 function App() {
   
-  const [clickedItem, setClickedItem] = useState([]);
+  const [clickedItem, setClickedItem] = useState();
   const [clickCounter, setClickCounter] = useState(0);
 
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
-    setClickedItem(item);
     if(itemId==2)
     {
+      setClickedItem(item);
       setClickCounter(prevCounter => prevCounter + 1);
     }
   };
@@ -20,7 +20,7 @@ function App() {
   return (
     <div className='w-full h-screen bg-back object-cover flex items-center'>
      <Sidebar onSidebarItemClick={handleSidebarItemClick}/>
-     <Board initialBoardName={'Nombre de la Tabla'} initialListName={clickCounter}/>
+     <Board initialBoardName={'Nombre de la Tabla'} initialListName={clickedItem}/>
     </div>
   )
 }
