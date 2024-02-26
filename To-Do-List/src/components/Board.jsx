@@ -38,19 +38,66 @@ const Board = ({ initialBoardName, initialListName }) => {
     useEffect(() => {
         if (initialListName !== null) {
             //console.log("Ítem clickeado:", initialListName);
-            setLists(prevLists => [...prevLists, { name: '' }]);
+            setLists(prevLists => [...prevLists, { id: generateUniqueId(), name: '', tasks: [] }]);
         }
     }, [initialListName]);
 
-    const handleListNameChange = (index, newName) => {
-        setLists((currentLists) =>
-          currentLists.map((list, i) =>
-            i === index ? { ...list, name: newName } : list
-          )
-        );
-      };
+    const handleListNameChange = (idToChange, newName) => {
+        setLists((currentLists) => {
+            return currentLists.map((list) => {
+                if (list.id === idToChange) {
+                    return { ...list, name: newName };
+                }
+                return list;
+            });
+        });
+    };
 
-    console.log(initialListName)
+    const handleNewTask = (task, idToAddTasks) => {
+        setLists((currentLists) => {
+            return currentLists.map(list => {
+                if (list.id === idToAddTasks) {
+                    // Agrega la nueva tarea a la lista correspondiente
+                    return {
+                        ...list,
+                        tasks: [...list.tasks, task]
+                    };
+                }
+                return list;
+            });
+        });
+    };
+
+    const handleTaskDeleted = (listIndex, taskId) => {
+        setLists((currentLists) =>
+            currentLists.map((list, index) =>
+            index === listIndex
+                ? { ...list, tasks: list.tasks.filter((task) => task.id !== taskId) }
+                : list
+            )
+        );
+    };
+    
+    const handleListDeleted = (idToDelete) => {
+        setLists((currentLists) => {
+            // Encuentra el índice del elemento con el ID deseado
+            const indexToDelete = currentLists.findIndex(list => list.id === idToDelete);
+            
+            if (indexToDelete === -1) {
+                // Si no se encuentra el ID, no hacemos nada
+                return currentLists;
+            }
+    
+            // Crea una nueva lista sin el elemento que tiene el ID deseado
+            const updatedLists = currentLists.filter((list, index) => index !== indexToDelete);
+            
+            return updatedLists;
+        });
+    };
+
+    function generateUniqueId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
 
     return (
         <div className={`list-container`}>
@@ -59,11 +106,14 @@ const Board = ({ initialBoardName, initialListName }) => {
             (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{boardName}<MdEdit /></h3>) 
             : 
             (<input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur}autoFocus/>)}
-            {lists.map((list, index) => (
+            {lists && lists.map((list) => (
                 <List 
-                key={`list-${index}`} 
+                key={list.id} 
                 initialListName={list.name} 
-                onTittleChange={(newName) => handleListNameChange(index, newName)}
+                onTittleChange={(newName) => handleListNameChange(list.id, newName)}
+                onListDeleted={() => handleListDeleted(list.id)}
+                tasks={list.tasks}
+                taskToAdd={(newTask) => handleNewTask(newTask, list.id)}
                 />
             ))}
         </div>
