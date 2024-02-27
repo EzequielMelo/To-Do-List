@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { MdEdit } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import PropTypes from 'prop-types'; 
 
 
 // eslint-disable-next-line react/prop-types
-const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd }) => {
+const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskClomplete, onTaskDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(initialListName || 'Título de la lista');
     const[newTask, setNewTask] = useState({
@@ -46,32 +48,38 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
 
       if (newTask.name.trim() !== "") 
       {
-          taskToAdd({...newTask, id: Math.floor(Math.random() * 9999)});
+          taskToAdd({...newTask, id: Math.floor(Math.random() * 9999), completed: false});
           setNewTask({name: ""});
       }
     }
 
   return (
-    <div className=' inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto max-w-72 gap-3'>      
-      <div className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit'>
+    <div className=' inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto max-w-80 gap-3'>      
+      <div className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full'>
           {!isEditing 
           ? 
-          (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit max-w-64 px-[10px] py-[2px] justify-between' onClick={handleClick}>{customText}<MdEdit /></h3>) 
+          (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-72 px-[10px] py-[2px] justify-between items-center' onClick={handleClick}>{customText}<MdEdit /></h3>) 
           : 
-          (<input className='bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px]' type="text" value={customText} onChange={handleChange} onBlur={handleTittleBlur} autoFocus/>)}
+          (<input className='bg-slate-600 bg-opacity-60 rounded-2xl w-full px-[10px] py-[2px]' type="text" value={customText} onChange={handleChange} onBlur={handleTittleBlur} autoFocus/>)}
       </div>
       <div>       
             <ul>
             {tasks && tasks.map((task) => (
-              <li className="flex bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] w-full mb-1"
+              <li className="flex bg-slate-600 bg-opacity-60 rounded-2xl px-[10px] py-[2px] w-full max-w-72 mb-1 justify-between"
                key={task.id}>
-                <span>{task.name}</span>
+                <span className="flex max-w-72 w-fit" style={{textDecoration: task.completed ? 'line-through' : 'none'}}>
+                  {task.name}
+                </span>
+                <span className="flex gap-x-1 items-center pl-2">
+                  <FaCheck onClick={() => {onTaskClomplete(task.id)}}/>
+                  <FaTrash onClick={() => {onTaskDelete(task.id)}}/>
+                </span>
               </li>
             ))}
             </ul>
       </div>
-      <div className='flex w-fit'>
-            <input name="name" className='bg-slate-600 bg-opacity-60 rounded-3xl w-fit px-[10px] py-[2px] my-2 resize-none' value={newTask.name} onChange={handleInputChange}></input>
+      <div className='flex w-full'>
+            <input name="name" className='bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-72 px-[10px] py-[2px] my-2' value={newTask.name} onChange={handleInputChange}></input>
       </div>
       <div className='flex w-full justify-center gap-2'>
         <div className="inline-grid w-fit place-items-center">
@@ -99,6 +107,7 @@ List.propTypes = {
   onListDeleted: PropTypes.func,
   tasks: PropTypes.array, // Asegúrate de que tasks sea un array
   taskToAdd: PropTypes.func,
+  onTaskClomplete: PropTypes.func,
 };
 
 export default List

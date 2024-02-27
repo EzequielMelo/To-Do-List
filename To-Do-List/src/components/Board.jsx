@@ -36,7 +36,7 @@ const Board = ({ initialBoardName, initialListName }) => {
     };
 
     useEffect(() => {
-        if (initialListName !== null) {
+        if (initialListName !== null && initialListName!== 0) {
             //console.log("Ítem clickeado:", initialListName);
             setLists(prevLists => [...prevLists, { id: generateUniqueId(), name: '', tasks: [] }]);
         }
@@ -68,10 +68,22 @@ const Board = ({ initialBoardName, initialListName }) => {
         });
     };
 
-    const handleTaskDeleted = (listIndex, taskId) => {
+    const handleTaskCompleted = (listId, taskId) => {
         setLists((currentLists) =>
-            currentLists.map((list, index) =>
-            index === listIndex
+          currentLists.map((list) =>
+            listId === list.id
+              ? {...list, tasks: list.tasks.map((task) => 
+              task.id === taskId ? { ...task, completed: !task.completed } : task
+              ),
+              } : list
+          )
+        );
+    };
+
+    const handleTaskDeleted = (listId, taskId) => {
+        setLists((currentLists) =>
+            currentLists.map((list) =>
+            listId === list.id
                 ? { ...list, tasks: list.tasks.filter((task) => task.id !== taskId) }
                 : list
             )
@@ -114,6 +126,8 @@ const Board = ({ initialBoardName, initialListName }) => {
                 onListDeleted={() => handleListDeleted(list.id)}
                 tasks={list.tasks}
                 taskToAdd={(newTask) => handleNewTask(newTask, list.id)}
+                onTaskClomplete={(taskId) => handleTaskCompleted(list.id, taskId)}
+                onTaskDelete={(taskId) => handleTaskDeleted(list.id, taskId)}
                 />
             ))}
         </div>

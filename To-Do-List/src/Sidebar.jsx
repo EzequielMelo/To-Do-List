@@ -7,7 +7,7 @@ import SideBarData from "./components/SideBarData";
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ onSidebarItemClick }) => {
     const [toggle, setToggle] = useState(false)
-    const [clickedItem, setClickedItem] = useState()
+    const [clickedItem, setClickedItem] = useState(null)
 
     const handleItemClick = (item) => {
         setClickedItem(item);

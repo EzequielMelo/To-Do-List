@@ -10,17 +10,19 @@ function App() {
 
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
-    if(itemId==2)
+    if(itemId==2 && item!==null)
     {
       setClickedItem(item);
       setClickCounter(prevCounter => prevCounter + 1);
     }
   };
+
+  console.log(clickCounter)
   
   return (
     <div className='w-full h-screen bg-back object-cover flex items-center'>
      <Sidebar onSidebarItemClick={handleSidebarItemClick}/>
-     <Board initialBoardName={'Nombre de la Tabla'} initialListName={clickedItem}/>
+     <Board initialBoardName={'Nombre de la Tabla'} initialListName={clickCounter}/>
     </div>
   )
 }
