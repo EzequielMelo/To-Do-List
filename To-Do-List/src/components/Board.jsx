@@ -3,10 +3,9 @@ import { MdEdit } from "react-icons/md";
 import List from './List';
 
 // eslint-disable-next-line react/prop-types
-const Board = ({ initialBoardName, initialListName }) => {
-    const [boardName, setBoardName] = useState(initialBoardName);
+const Board = ({ initialBoardName, onTittleChange, initialListName }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [customText, setCustomText] = useState(initialBoardName);
+    const [customText, setCustomText] = useState(initialBoardName || 'Título de la Tabla');
     const [lists, setLists] = useState(() => {
         let savedLists = localStorage.getItem('list');
         return savedLists ? JSON.parse(savedLists) : [];
@@ -27,12 +26,11 @@ const Board = ({ initialBoardName, initialListName }) => {
     };
 
     const handleBlur = () => {
-        setIsEditing(false);
-        if (customText.trim() !== '') {
-            setBoardName(customText);
-        } else {
-            setCustomText(boardName); // Revertir al nombre original si el campo está vacío
-        }
+        if (customText.trim() === '') {
+            setCustomText('Título de la Tabla'); // Restaurar el título por defecto si el texto está vacío
+            }
+            setIsEditing(false);
+          onTittleChange(customText);
     };
 
     useEffect(() => {
@@ -115,7 +113,7 @@ const Board = ({ initialBoardName, initialListName }) => {
         <div className={`list-container`}>
             {!isEditing 
             ? 
-            (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{boardName}<MdEdit /></h3>) 
+            (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{customText}<MdEdit /></h3>) 
             : 
             (<input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur}autoFocus/>)}
             {lists && lists.map((list) => (

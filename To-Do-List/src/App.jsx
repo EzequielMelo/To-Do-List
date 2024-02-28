@@ -7,7 +7,7 @@ function App() {
   
   const [clickedItem, setClickedItem] = useState();
   const [clickCounter, setClickCounter] = useState(0);
-
+  
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
     if(itemId==2 && item!==null)
@@ -15,6 +15,17 @@ function App() {
       setClickedItem(item);
       setClickCounter(prevCounter => prevCounter + 1);
     }
+  };
+
+  const handleBoardNameChange = (idToChange, newName) => {
+    setLists((currentLists) => {
+        return currentLists.map((list) => {
+            if (list.id === idToChange) {
+                return { ...list, name: newName };
+            }
+            return list;
+        });
+    });
   };
 
   console.log(clickCounter)
