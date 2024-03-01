@@ -18,7 +18,7 @@ function App() {
   console.log(boards)
 
   useEffect(() => {
-    localStorage.setItem('list', JSON.stringify(boards));
+    localStorage.setItem('Board', JSON.stringify(boards));
     /* console.log('Las listas se han actualizado:', lists); */
     }, [boards]);
 
@@ -55,11 +55,14 @@ function App() {
      <Sidebar 
       onSidebarItemClick={handleSidebarItemClick}
      />
-     <Board 
-      boardName={boardName} 
-      onTittleChange 
-      newListClicked={clickAddList}
-     />
+     {boards && boards.map((board) => (
+           <Board 
+           key={board.id}
+           boardName={board.name} 
+           onTittleChange 
+           newListClicked={clickAddList}
+          />
+     ))}
     </div>
   )
 }
