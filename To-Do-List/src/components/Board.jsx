@@ -3,9 +3,9 @@ import { MdEdit } from "react-icons/md";
 import List from './List';
 
 // eslint-disable-next-line react/prop-types
-const Board = ({ initialBoardName, onTittleChange, initialListName }) => {
+const Board = ({ boardName, onTittleChange, newListClicked }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [customText, setCustomText] = useState(initialBoardName || 'Título de la Tabla');
+    const [customText, setCustomText] = useState(boardName || 'Título de la Tabla');
     const [lists, setLists] = useState(() => {
         let savedLists = localStorage.getItem('list');
         return savedLists ? JSON.parse(savedLists) : [];
@@ -34,11 +34,11 @@ const Board = ({ initialBoardName, onTittleChange, initialListName }) => {
     };
 
     useEffect(() => {
-        if (initialListName !== null && initialListName!== 0) {
+        if (newListClicked !== null && newListClicked!== 0) {
             //console.log("Ítem clickeado:", initialListName);
             setLists(prevLists => [...prevLists, { id: generateUniqueId(), name: '', tasks: [] }]);
         }
-    }, [initialListName]);
+    }, [newListClicked]);
 
     const handleListNameChange = (idToChange, newName) => {
         setLists((currentLists) => {
@@ -115,7 +115,7 @@ const Board = ({ initialBoardName, onTittleChange, initialListName }) => {
             ? 
             (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{customText}<MdEdit /></h3>) 
             : 
-            (<input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur}autoFocus/>)}
+            (<input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur} autoFocus/>)}
             {lists && lists.map((list) => (
                 <List 
                 key={list.id} 

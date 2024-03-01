@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css'
 import Sidebar from './Sidebar'
 import Board from './components/Board'
@@ -6,34 +6,60 @@ import Board from './components/Board'
 function App() {
   
   const [clickedItem, setClickedItem] = useState();
-  const [clickCounter, setClickCounter] = useState(0);
+  const [clickAddList, setClickAddList] = useState(0);
+  const [clickAddBoard, setClickAddBoard] = useState(0);
+  const [boardName, setBoardName] = useState('Titulo de la lista');
+
+  const [boards, setBoards] = useState(() => {
+    let savedBoards = localStorage.getItem('Board');
+    return savedBoards ? JSON.parse(savedBoards) : [];
+  });
+
+  console.log(boards)
+
+  useEffect(() => {
+    localStorage.setItem('list', JSON.stringify(boards));
+    /* console.log('Las listas se han actualizado:', lists); */
+    }, [boards]);
+
+  useEffect(() => {
+    if (clickAddBoard !== null && clickAddBoard!== 0) {
+        //console.log("Ítem clickeado:", initialListName);
+        setBoards(prevBoards => [...prevBoards, { id: generateUniqueId(), name: '', lists: [] }]);
+    }
+  }, [clickAddBoard]);
+
+  function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
   
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
     if(itemId==2 && item!==null)
     {
       setClickedItem(item);
-      setClickCounter(prevCounter => prevCounter + 1);
+      setClickAddList(prevCounter => prevCounter + 1);
     }
+    if(itemId==1 && item!==null)
+    {
+      setClickedItem(item);
+      setClickAddBoard(prevCounter => prevCounter + 1);
+    }
+
   };
 
-  const handleBoardNameChange = (idToChange, newName) => {
-    setLists((currentLists) => {
-        return currentLists.map((list) => {
-            if (list.id === idToChange) {
-                return { ...list, name: newName };
-            }
-            return list;
-        });
-    });
-  };
-
-  console.log(clickCounter)
+  console.log(clickAddList)
   
   return (
     <div className='w-full h-screen bg-back object-cover flex items-center'>
-     <Sidebar onSidebarItemClick={handleSidebarItemClick}/>
-     <Board initialBoardName={'Nombre de la Tabla'} initialListName={clickCounter}/>
+     <Sidebar 
+      onSidebarItemClick={handleSidebarItemClick}
+     />
+     <Board 
+      boardName={boardName} 
+      onTittleChange 
+      newListClicked={clickAddList}
+     />
     </div>
   )
 }
