@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Sidebar from './components/Sidebar'
 import Board from './components/Board'
+import CompleteLists from './components/CompleteLists'
 import PropTypes from 'prop-types'; 
+import MyBoards from './components/MyBoards';
+import History from './components/History';
 
 function App() {
   
@@ -58,6 +61,9 @@ function App() {
           <Sidebar onSidebarItemClick={handleSidebarItemClick} />
           <Routes>
             <Route path="/nuevo-tablero" element={<NuevoTablero boards={boards} clickAddList={clickAddList} />} />
+            <Route path="/completadas" element={<CompleteLists />} />
+            <Route path="/historial" element={<History />} />
+            <Route path="/mis-tableros" element={<MyBoards />} />
           </Routes>
         </Router>
 
