@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
-import Sidebar from './Sidebar'
+import Sidebar from './components/Sidebar'
 import Board from './components/Board'
+import PropTypes from 'prop-types'; 
 
 function App() {
   
@@ -51,20 +53,56 @@ function App() {
   console.log(clickAddList)
   
   return (
-    <div className='w-full h-screen bg-back object-cover flex items-center'>
-     <Sidebar 
-      onSidebarItemClick={handleSidebarItemClick}
-     />
-     {boards && boards.map((board) => (
-           <Board 
-           key={board.id}
-           boardName={board.name} 
-           onTittleChange 
-           newListClicked={clickAddList}
-          />
-     ))}
-    </div>
+      <div className='w-full h-screen bg-back object-cover flex items-center'>
+        <Router>
+          <Sidebar onSidebarItemClick={handleSidebarItemClick} />
+          <Routes>
+            <Route path="/nuevo-tablero" element={<NuevoTablero boards={boards} clickAddList={clickAddList} />} />
+          </Routes>
+        </Router>
+
+      </div>
   )
 }
+
+
+// eslint-disable-next-line react/prop-types
+const NuevoTablero = ({ boards, clickAddList }) => {
+
+  if (boards.length === 0) {
+    return <p>No hay tableros disponibles.</p>;
+  }
+
+  const board = boards[0]
+  return (
+    <Board
+      key={board.id}
+      boardName={board.name}
+      onTittleChange
+      newListClicked={clickAddList}
+    />
+  )
+};
+
+/*
+// eslint-disable-next-line react/prop-types
+const NuevoTablero = ({ boards, clickAddList }) => {
+  return (
+    <>
+      {boards.map(board => (
+        <Board
+          key={board.id}
+          boardName={board.name}
+          onTittleChange
+          newListClicked={clickAddList}
+        />
+      ))}
+    </>
+  );
+}
+*/
+NuevoTablero.propTypes = {
+  boards: PropTypes.array, // Asegúrate de que tasks sea un array
+};
 
 export default App

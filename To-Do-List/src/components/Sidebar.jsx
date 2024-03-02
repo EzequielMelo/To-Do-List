@@ -1,7 +1,7 @@
 import { useState} from "react";
 import { BiChevronLeft } from "react-icons/bi"
-import UserProfile from "./components/UserProfile";
-import SideBarData from "./components/SideBarData";
+import UserProfile from "./UserProfile";
+import SideBarData from "./SideBarData";
 
 
 // eslint-disable-next-line react/prop-types
@@ -15,8 +15,6 @@ const Sidebar = ({ onSidebarItemClick }) => {
             onSidebarItemClick(item); // Llama a la función proporcionada por el padre
         }
     };
-    
-    console.log(clickedItem);
     
     return(
        <div className= {`${toggle ? "w-[5.8rem]" : ""} sidebar-container`}>
