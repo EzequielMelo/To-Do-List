@@ -79,7 +79,7 @@ const NuevoTablero = ({ boards, clickAddList }) => {
     return <p>No hay tableros disponibles.</p>;
   }
 
-  const board = boards[0]
+  const board = boards[1]
   return (
     <Board
       key={board.id}

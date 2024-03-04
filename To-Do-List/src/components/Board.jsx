@@ -27,7 +27,7 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
 
     const handleBlur = () => {
         if (customText.trim() === '') {
-            setCustomText('Título de la Tabla'); // Restaurar el título por defecto si el texto está vacío
+            setCustomText('Título de la Tabla');
             }
             setIsEditing(false);
           onTittleChange(customText);
@@ -35,7 +35,6 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
 
     useEffect(() => {
         if (newListClicked !== null && newListClicked!== 0) {
-            //console.log("Ítem clickeado:", initialListName);
             setLists(prevLists => [...prevLists, { id: generateUniqueId(), name: '', tasks: [] }]);
         }
     }, [newListClicked]);
@@ -55,7 +54,7 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
         setLists((currentLists) => {
             return currentLists.map(list => {
                 if (list.id === idToAddTasks) {
-                    // Agrega la nueva tarea a la lista correspondiente
+
                     return {
                         ...list,
                         tasks: [...list.tasks, task]
@@ -90,15 +89,14 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
     
     const handleListDeleted = (idToDelete) => {
         setLists((currentLists) => {
-            // Encuentra el índice del elemento con el ID deseado
+
             const indexToDelete = currentLists.findIndex(list => list.id === idToDelete);
             
             if (indexToDelete === -1) {
                 // Si no se encuentra el ID, no hacemos nada
                 return currentLists;
             }
-    
-            // Crea una nueva lista sin el elemento que tiene el ID deseado
+
             const updatedLists = currentLists.filter((list, index) => index !== indexToDelete);
             
             return updatedLists;

@@ -25,7 +25,7 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
 
     const handleTittleBlur = () => {
       if (customText.trim() === '') {
-        setCustomText('Título de la lista'); // Restaurar el título por defecto si el texto está vacío
+        setCustomText('Título de la lista');
         }
         setIsEditing(false);
       onTittleChange(customText);
@@ -43,7 +43,6 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
   };
 
     const handleAddNewTask = (event) => {
-      // Se utiliza para que no se recargue la pagina
       event.preventDefault();
 
       if (newTask.name.trim() !== "") 
@@ -105,7 +104,7 @@ List.propTypes = {
   initialListName: PropTypes.string,
   onTittleChange: PropTypes.func,
   onListDeleted: PropTypes.func,
-  tasks: PropTypes.array, // Asegúrate de que tasks sea un array
+  tasks: PropTypes.array,
   taskToAdd: PropTypes.func,
   onTaskClomplete: PropTypes.func,
 };

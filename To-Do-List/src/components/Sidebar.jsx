@@ -12,7 +12,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
     const handleItemClick = (item) => {
         setClickedItem(item);
         if (onSidebarItemClick) {
-            onSidebarItemClick(item); // Llama a la función proporcionada por el padre
+            onSidebarItemClick(item);
         }
     };
     
