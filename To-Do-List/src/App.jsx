@@ -9,6 +9,8 @@ import MyBoards from './components/MyBoards';
 import History from './components/History';
 
 function App() {
+
+ //Zona a modificar, aca se tienen que guardar dentro de las boards las list de cada una de las boards
   
   const [clickedItem, setClickedItem] = useState();
   const [clickAddList, setClickAddList] = useState(0);
