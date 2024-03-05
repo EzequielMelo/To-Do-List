@@ -1,22 +1,13 @@
 import { useState, useEffect } from 'react';
 import { MdEdit } from "react-icons/md";
 import List from './List';
+import PropTypes from 'prop-types'; 
 
 // eslint-disable-next-line react/prop-types
-const Board = ({ boardName, onTittleChange, newListClicked }) => {
+const Board = ({ boardName, listsToShow, onListDeleted, onTittleChange}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(boardName || 'Título de la Tabla');
-    const [lists, setLists] = useState(() => {
-        let savedLists = localStorage.getItem('list');
-        return savedLists ? JSON.parse(savedLists) : [];
-    });
     
-    useEffect(() => {
-    localStorage.setItem('list', JSON.stringify(lists));
-    /* console.log('Las listas se han actualizado:', lists); */
-    }, [lists]);
-    
-
     const handleClick = () => {
         setIsEditing(true);
     };
@@ -33,11 +24,6 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
           onTittleChange(customText);
     };
 
-    useEffect(() => {
-        if (newListClicked !== null && newListClicked!== 0) {
-            setLists(prevLists => [...prevLists, { id: generateUniqueId(), name: '', tasks: [] }]);
-        }
-    }, [newListClicked]);
 
     const handleListNameChange = (idToChange, newName) => {
         setLists((currentLists) => {
@@ -86,7 +72,7 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
             )
         );
     };
-    
+    /*
     const handleListDeleted = (idToDelete) => {
         setLists((currentLists) => {
 
@@ -102,11 +88,7 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
             return updatedLists;
         });
     };
-
-    function generateUniqueId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    }
-
+    */
     return (
         <div className={`list-container`}>
             {!isEditing 
@@ -114,12 +96,12 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
             (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{customText}<MdEdit /></h3>) 
             : 
             (<input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur} autoFocus/>)}
-            {lists && lists.map((list) => (
+            {listsToShow && listsToShow.map((list) => (
                 <List 
                 key={list.id} 
                 initialListName={list.name} 
                 onTittleChange={(newName) => handleListNameChange(list.id, newName)}
-                onListDeleted={() => handleListDeleted(list.id)}
+                onListDeleted={() => onListDeleted(list.id)}
                 tasks={list.tasks}
                 taskToAdd={(newTask) => handleNewTask(newTask, list.id)}
                 onTaskClomplete={(taskId) => handleTaskCompleted(list.id, taskId)}
@@ -129,5 +111,9 @@ const Board = ({ boardName, onTittleChange, newListClicked }) => {
         </div>
     );
 };
+
+Board.propTypes = {
+    listsToShow: PropTypes.array, // Asegúrate de que tasks sea un array
+  };
 
 export default Board;
