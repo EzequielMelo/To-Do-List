@@ -16,6 +16,7 @@ function App() {
   const [clickAddList, setClickAddList] = useState(0);
   const [clickAddBoard, setClickAddBoard] = useState(0);
   const [boardName, setBoardName] = useState('Titulo de la lista');
+  const boardNumber = 1;
 
   const [boards, setBoards] = useState(() => {
     let savedBoards = localStorage.getItem('Board');
@@ -56,9 +57,9 @@ function App() {
   useEffect(() => {
     if (clickAddList !== null && clickAddList !== 0) {
       setBoards(prevBoards => {
-        const lastBoardIndex = 2;
+        const lastBoardIndex = boardNumber;
         const updatedBoards = [...prevBoards];
-        updatedBoards[lastBoardIndex].lists.push({ id: generateUniqueId(), name: 'hola', tasks: [] });
+        updatedBoards[lastBoardIndex].lists.push({ id: generateUniqueId(), name: '', tasks: [] });
         return updatedBoards;
       });
     }
@@ -67,15 +68,11 @@ function App() {
   const handleListDeleted = (idToDelete) => {
     setBoards((currentBoards) => {
       
-      console.log(idToDelete)
-      const BoardIndex = 2;
+      const BoardIndex = boardNumber;
       const updatedBoards = [...currentBoards];
       const indexToDelete = updatedBoards[BoardIndex].lists.findIndex(list => list.id === idToDelete);
-      console.log(indexToDelete)
 
       if (indexToDelete === -1) {
-          // Si no se encuentra el ID, no hacemos nada
-          console.log("no existe")
           return currentBoards;
       }
 
@@ -86,19 +83,37 @@ function App() {
     });
   };
 
+  const handleListNameChange = (idToChange, newName) => {
+    setBoards((currentBoards) => {
+      const BoardIndex = boardNumber;
+      const updatedBoards = [...currentBoards];
+      const indexToChange = updatedBoards[BoardIndex].lists.findIndex(list => list.id === idToChange);
+
+      if (indexToChange === -1) {
+          return currentBoards;
+      }
+
+      updatedBoards[BoardIndex].lists[indexToChange].name = newName;
+
+      return updatedBoards;
+    });
+  };
+  
+
   const NuevoTablero = ({ boards }) => {
 
     if (boards.length === 0) {
       return <p>No hay tableros disponibles.</p>;
     }
   
-    const board = boards[2]
+    const board = boards[boardNumber]
     return (
       <Board
         key={board.id}
         boardName={board.name}
         listsToShow={board.lists}
         onListDeleted={(listId) => handleListDeleted(listId)} 
+        onListNewName={(listId, newName) => handleListNameChange(listId, newName)}
       />
     )
   };

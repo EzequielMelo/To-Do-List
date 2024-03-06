@@ -4,7 +4,7 @@ import List from './List';
 import PropTypes from 'prop-types'; 
 
 // eslint-disable-next-line react/prop-types
-const Board = ({ boardName, listsToShow, onListDeleted, onTittleChange}) => {
+const Board = ({ boardName, listsToShow, onListDeleted, onListNewName}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(boardName || 'Título de la Tabla');
     
@@ -21,10 +21,10 @@ const Board = ({ boardName, listsToShow, onListDeleted, onTittleChange}) => {
             setCustomText('Título de la Tabla');
             }
             setIsEditing(false);
-          onTittleChange(customText);
+          //onTittleChange(customText);
     };
 
-
+    /*
     const handleListNameChange = (idToChange, newName) => {
         setLists((currentLists) => {
             return currentLists.map((list) => {
@@ -35,6 +35,7 @@ const Board = ({ boardName, listsToShow, onListDeleted, onTittleChange}) => {
             });
         });
     };
+    */
 
     const handleNewTask = (task, idToAddTasks) => {
         setLists((currentLists) => {
@@ -100,7 +101,7 @@ const Board = ({ boardName, listsToShow, onListDeleted, onTittleChange}) => {
                 <List 
                 key={list.id} 
                 initialListName={list.name} 
-                onTittleChange={(newName) => handleListNameChange(list.id, newName)}
+                onTittleChange={(newName) => onListNewName(list.id, newName)}
                 onListDeleted={() => onListDeleted(list.id)}
                 tasks={list.tasks}
                 taskToAdd={(newTask) => handleNewTask(newTask, list.id)}
