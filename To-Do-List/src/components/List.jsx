@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 
 // eslint-disable-next-line react/prop-types
-const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskClomplete, onTaskDelete }) => {
+const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(initialListName || 'Título de la lista');
     const[newTask, setNewTask] = useState({
@@ -70,8 +70,8 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
                   {task.name}
                 </span>
                 <span className="flex gap-x-1 items-center pl-2">
-                  <FaCheck onClick={() => {onTaskClomplete(task.id)}}/>
-                  <FaTrash onClick={() => {onTaskDelete(task.id)}}/>
+                  <FaCheck onClick={() => onTaskClomplete(task.id)}/>
+                  <FaTrash onClick={() => onTaskDelete(task.id)} />
                 </span>
               </li>
             ))}
@@ -84,14 +84,14 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
         <div className="inline-grid w-fit place-items-center">
           <IoIosAddCircleOutline 
           className="size-7 text-slate-600"
-          onClick={handleAddNewTask}
+          onClick={ handleAddNewTask }
           />
           <h3 className="flex text-xs text-slate-600">Añadir Tarea</h3>
         </div>
         <div className="inline-grid w-fit place-items-center">
           <IoTrashOutline 
           className="size-7 text-slate-600"
-          onClick={() => { onListDeleted() } }
+          onClick={() => { onListDeleted() }}
           />
           <h3 className="flex text-xs text-slate-600">Eliminar Lista</h3>
         </div>
@@ -107,6 +107,7 @@ List.propTypes = {
   tasks: PropTypes.array,
   taskToAdd: PropTypes.func,
   onTaskClomplete: PropTypes.func,
+  onTaskDelete: PropTypes.func,
 };
 
 export default List

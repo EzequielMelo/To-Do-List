@@ -65,6 +65,16 @@ function App() {
     }
   }, [clickAddList]);
 
+  const handleNameChange = (boardId, newName) => {
+    setBoards((currentBoards) => {
+      const BoardIndex = boardNumber;
+      const updatedBoards = [...currentBoards];
+      updatedBoards[BoardIndex].name = newName;
+
+      return updatedBoards;
+    });
+  };
+
   const handleListDeleted = (idToDelete) => {
     setBoards((currentBoards) => {
       
@@ -98,6 +108,79 @@ function App() {
       return updatedBoards;
     });
   };
+
+  const handleListNewTask = (boardId, listId, newTask) => {
+    setBoards(prevBoards => {
+      const updatedBoards = prevBoards.map(board => {
+        if (board.id === boardId) {
+          const updatedLists = board.lists.map(list => {
+            if (list.id === listId) {
+              return {
+                ...list,
+                tasks: [...list.tasks, newTask]
+              };
+            }
+            return list;
+          });
+          return {
+            ...board,
+            lists: updatedLists
+          };
+        }
+        return board;
+      });
+      return updatedBoards;
+    });
+  };
+
+  const handleListTaskDeleted = (boardId, listId, deleteTaskId) => {
+    setBoards(prevBoards => {
+      const updatedBoards = prevBoards.map(board => {
+        if (board.id === boardId) {
+          const updatedLists = board.lists.map(list => {
+            if(list.id === listId) {
+              return {
+                ...list,
+                tasks: list.tasks.filter(task => task.id !== deleteTaskId)
+              }
+            }
+            return list
+          })
+          return {
+            ...board,
+            lists: updatedLists
+          }
+        }
+        return board
+      })
+      return updatedBoards
+    })
+  }
+
+  const handleListTaskCompleted = (boardId, listId, completedTaskId) => {
+    setBoards(prevBoards => {
+      const updatedBoards = prevBoards.map(board => {
+        if (board.id === boardId) {
+          const updatedLists = board.lists.map(list => {
+            if(list.id === listId) {
+              return {
+                ...list,
+                tasks: list.tasks.map((task) => 
+                task.id === completedTaskId ? { ...task, completed: !task.completed } : task
+          )}
+            }
+            return list
+          })
+          return {
+            ...board,
+            lists: updatedLists
+          }
+        }
+        return board
+      })
+      return updatedBoards
+    })
+  }
   
 
   const NuevoTablero = ({ boards }) => {
@@ -111,9 +194,13 @@ function App() {
       <Board
         key={board.id}
         boardName={board.name}
+        onBoardTittleChange={(newName) => handleNameChange(board.id, newName)}
         listsToShow={board.lists}
         onListDeleted={(listId) => handleListDeleted(listId)} 
         onListNewName={(listId, newName) => handleListNameChange(listId, newName)}
+        onNewTaskAdded={(listId, newTask) => handleListNewTask(board.id, listId, newTask)}
+        onTaskDeleted={(listId, taskId) => handleListTaskDeleted(board.id, listId, taskId)}
+        onTaskCompleted={(listId, taskId) => handleListTaskCompleted(board.id, listId, taskId)}
       />
     )
   };

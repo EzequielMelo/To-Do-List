@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MdEdit } from "react-icons/md";
 import List from './List';
 import PropTypes from 'prop-types'; 
 
 // eslint-disable-next-line react/prop-types
-const Board = ({ boardName, listsToShow, onListDeleted, onListNewName}) => {
+const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onListNewName, onNewTaskAdded, onTaskDeleted, onTaskCompleted}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(boardName || 'Título de la Tabla');
     
@@ -21,75 +21,9 @@ const Board = ({ boardName, listsToShow, onListDeleted, onListNewName}) => {
             setCustomText('Título de la Tabla');
             }
             setIsEditing(false);
-          //onTittleChange(customText);
+        onBoardTittleChange(customText);
     };
 
-    /*
-    const handleListNameChange = (idToChange, newName) => {
-        setLists((currentLists) => {
-            return currentLists.map((list) => {
-                if (list.id === idToChange) {
-                    return { ...list, name: newName };
-                }
-                return list;
-            });
-        });
-    };
-    */
-
-    const handleNewTask = (task, idToAddTasks) => {
-        setLists((currentLists) => {
-            return currentLists.map(list => {
-                if (list.id === idToAddTasks) {
-
-                    return {
-                        ...list,
-                        tasks: [...list.tasks, task]
-                    };
-                }
-                return list;
-            });
-        });
-    };
-
-    const handleTaskCompleted = (listId, taskId) => {
-        setLists((currentLists) =>
-          currentLists.map((list) =>
-            listId === list.id
-              ? {...list, tasks: list.tasks.map((task) => 
-              task.id === taskId ? { ...task, completed: !task.completed } : task
-              ),
-              } : list
-          )
-        );
-    };
-
-    const handleTaskDeleted = (listId, taskId) => {
-        setLists((currentLists) =>
-            currentLists.map((list) =>
-            listId === list.id
-                ? { ...list, tasks: list.tasks.filter((task) => task.id !== taskId) }
-                : list
-            )
-        );
-    };
-    /*
-    const handleListDeleted = (idToDelete) => {
-        setLists((currentLists) => {
-
-            const indexToDelete = currentLists.findIndex(list => list.id === idToDelete);
-            
-            if (indexToDelete === -1) {
-                // Si no se encuentra el ID, no hacemos nada
-                return currentLists;
-            }
-
-            const updatedLists = currentLists.filter((list, index) => index !== indexToDelete);
-            
-            return updatedLists;
-        });
-    };
-    */
     return (
         <div className={`list-container`}>
             {!isEditing 
@@ -104,9 +38,9 @@ const Board = ({ boardName, listsToShow, onListDeleted, onListNewName}) => {
                 onTittleChange={(newName) => onListNewName(list.id, newName)}
                 onListDeleted={() => onListDeleted(list.id)}
                 tasks={list.tasks}
-                taskToAdd={(newTask) => handleNewTask(newTask, list.id)}
-                onTaskClomplete={(taskId) => handleTaskCompleted(list.id, taskId)}
-                onTaskDelete={(taskId) => handleTaskDeleted(list.id, taskId)}
+                taskToAdd={(newTask) => onNewTaskAdded(list.id, newTask)}
+                onTaskClomplete={(taskId) => onTaskCompleted(list.id, taskId)}
+                onTaskDelete={(taskId) => onTaskDeleted(list.id, taskId)}
                 />
             ))}
         </div>
