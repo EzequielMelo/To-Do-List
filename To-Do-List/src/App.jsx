@@ -13,7 +13,6 @@ function App() {
   const [clickedItem, setClickedItem] = useState();
   const [clickAddList, setClickAddList] = useState(0);
   const [clickAddBoard, setClickAddBoard] = useState(0);
-  const [boardName, setBoardName] = useState('Titulo de la lista');
   const boardNumber = 1;
 
   const [boards, setBoards] = useState(() => {
@@ -48,7 +47,7 @@ function App() {
   useEffect(() => {
     if (clickAddBoard !== null && clickAddBoard!== 0) {
         //console.log("Ítem clickeado:", initialListName);
-        setBoards(prevBoards => [...prevBoards, { id: generateUniqueId(), name: '', lists: []}]);
+        setBoards(prevBoards => [...prevBoards, { id: generateUniqueId(), name: 'Titulo de la Tabla', lists: []}]);
     }
   }, [clickAddBoard]);
 
@@ -233,7 +232,7 @@ function App() {
             <Route path="/nuevo-tablero" element={<NuevoTablero boards={boards}/>} />
             <Route path="/completadas" element={<CompleteLists />} />
             <Route path="/historial" element={<History />} />
-            <Route path="/mis-tableros" element={<MyBoards />} />
+            <Route path="/mis-tableros" element={<MyBoards boards={boards}/>} />
           </Routes>
         </Router>
 
