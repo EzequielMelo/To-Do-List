@@ -10,34 +10,40 @@ export const datas = [
     {
     id: 1,
     icon: <MdOutlineDashboardCustomize />,
+    text: "Inicio",
+    href: "/inicio"
+    },
+    {
+    id: 2,
+    icon: <MdOutlineDashboardCustomize />,
     text: "Nuevo Tablero",
     href: "/nuevo-tablero"
     },
     {
-    id: 2,
+    id: 3,
     icon: <TbListCheck />,
     text: "Nueva Lista",
     },
     {
-    id: 3,
+    id: 4,
     icon: <FaCheckDouble />,
     text: "Completadas",
     href: "/completadas"
     },
     {
-    id: 4,
+    id: 5,
     icon: <RiHistoryFill />,
     text: "Historial",
     href: "/historial"
     },
     {
-    id: 5,
+    id: 6,
     icon: <RxDashboard />,
     text: "Mis Tableros",
     href: "/mis-tableros"
     },
     {
-    id: 6,
+    id: 7,
     icon: <FiLogOut />,
     text: "Salir",
     href: "/salir"

@@ -10,6 +10,7 @@ const MyBoards = ({ boards }) => {
         <BoardSelection
         key={board.id} 
         boardName={board.name}     
+        boardLists={board.lists}
         />
       ))}
     </div>
