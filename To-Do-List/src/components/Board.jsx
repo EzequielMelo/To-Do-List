@@ -49,6 +49,6 @@ const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onL
 
 Board.propTypes = {
     listsToShow: PropTypes.array, // Asegúrate de que tasks sea un array
-  };
+};
 
 export default Board;
