@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'; 
 import userImageProfile from "../assets/userImgProfile.png"
 
-// eslint-disable-next-line react/prop-types
 const UserProfile = ({ toggle }) => {
   return (
     <div className={`flex gap-5 items-center ${toggle ? "bg-none transition-all duration-300 delay-200"  : "bg-slate-900 rounded-xl p-2"}`}>
@@ -16,7 +15,7 @@ const UserProfile = ({ toggle }) => {
   )
 }
 
-UserProfile.PropTypes = {
+UserProfile.propTypes = {
   toggle: PropTypes.bool,
 }
 

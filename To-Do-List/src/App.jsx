@@ -45,10 +45,18 @@ function App() {
   }
 
   useEffect(() => {
-    if (clickAddBoard !== null && clickAddBoard!== 0) {
-        //console.log("Ítem clickeado:", initialListName);
-        setBoards(prevBoards => [...prevBoards, { id: generateUniqueId(), name: 'Titulo de la Tabla', lists: []}]);
+    if (clickAddBoard !== null && clickAddBoard !== 0) {
+      const newBoard = { id: generateUniqueId(), name: 'Titulo de la Tabla', lists: [], boardSelected: true };
+      
+      if (boards.length > 0) {
+        const updatedBoards = boards.map(board => ({ ...board, boardSelected: false }));
+        // eslint-disable-next-line no-unused-vars
+        setBoards(prevBoards => [...updatedBoards, newBoard]);
+      } else {
+        setBoards(prevBoards => [...prevBoards, newBoard]);
+      }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickAddBoard]);
 
   useEffect(() => {
@@ -56,11 +64,25 @@ function App() {
       setBoards(prevBoards => {
         const lastBoardIndex = boardNumber;
         const updatedBoards = [...prevBoards];
-        updatedBoards[lastBoardIndex].lists.push({ id: generateUniqueId(), name: '', tasks: [] });
+        updatedBoards[lastBoardIndex].lists.push({ id: generateUniqueId(), name: 'Titulo de la Lista', tasks: [] });
         return updatedBoards;
       });
     }
   }, [clickAddList]);
+
+  const handleBoardDeleted = (idToDelete) => {
+    setBoards((currentBoards) => {
+      const indexToDelete = currentBoards.findIndex(board => board.id === idToDelete);
+  
+      if (indexToDelete === -1) {
+        return currentBoards;
+      }
+  
+      const updatedBoards = [...currentBoards];
+      updatedBoards.splice(indexToDelete, 1); 
+      return updatedBoards;
+    });
+  };
 
   const handleNameChange = (boardId, newName) => {
     setBoards((currentBoards) => {
@@ -214,7 +236,7 @@ function App() {
             <Route path="/nuevo-tablero" element={<NuevoTablero boards={boards}/>} />
             <Route path="/completadas" element={<CompleteLists />} />
             <Route path="/historial" element={<History />} />
-            <Route path="/mis-tableros" element={<MyBoards boards={boards}/>} />
+            <Route path="/mis-tableros" element={<MyBoards boards={boards} onBoardDelete={(boardId) => handleBoardDeleted(boardId)}/>} />
           </Routes>
         </Router>
 
