@@ -18,7 +18,7 @@ const MyBoards = ({ boards }) => {
 }
 
 MyBoards.propTypes = {
-  boards: PropTypes.array, // Asegúrate de que tasks sea un array
+  boards: PropTypes.array,
 };
 
 export default MyBoards

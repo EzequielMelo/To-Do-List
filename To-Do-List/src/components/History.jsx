@@ -1,5 +1,3 @@
-
-
 const History = () => {
   return (
     <div className={`list-container`}>

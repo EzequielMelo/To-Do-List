@@ -19,7 +19,7 @@ const BoardSelection = ({ boardName, boardLists }) => {
 }
 
 BoardSelection.propTypes = {
-  boardLists: PropTypes.array, // Asegúrate de que tasks sea un array
+  boardLists: PropTypes.array,
 };
 
 export default BoardSelection
