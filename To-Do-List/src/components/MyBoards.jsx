@@ -1,7 +1,6 @@
 import BoardSelection from "./BoardSelection"
 import PropTypes from 'prop-types'; 
 
-// eslint-disable-next-line react/prop-types
 const MyBoards = ({ boards }) => {
   return (
     <div className={`list-container`}>

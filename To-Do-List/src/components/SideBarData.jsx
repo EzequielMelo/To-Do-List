@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { datas } from "./Data"
+import PropTypes from 'prop-types'; 
 
-// eslint-disable-next-line react/prop-types
 const SideBarData = ({ toggle, onItemClick }) => {
   return (
     <div className=''>
@@ -22,6 +22,11 @@ const SideBarData = ({ toggle, onItemClick }) => {
       })}
     </div>
   )
+}
+
+SideBarData.propTypes = {
+  toggle: PropTypes.bool,
+  onItemClick: PropTypes.func,
 }
 
 export default SideBarData

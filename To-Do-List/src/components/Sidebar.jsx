@@ -2,9 +2,9 @@ import { useState} from "react";
 import { BiChevronLeft } from "react-icons/bi"
 import UserProfile from "./UserProfile";
 import SideBarData from "./SideBarData";
+import PropTypes from 'prop-types'; 
 
 
-// eslint-disable-next-line react/prop-types
 const Sidebar = ({ onSidebarItemClick }) => {
     const [toggle, setToggle] = useState(false)
     const [clickedItem, setClickedItem] = useState(null)
@@ -27,6 +27,10 @@ const Sidebar = ({ onSidebarItemClick }) => {
         </div>
        </div> 
     )
+}
+
+Sidebar.propTypes = {
+    onSidebarItemClick: PropTypes.func,
 }
 
 export default Sidebar

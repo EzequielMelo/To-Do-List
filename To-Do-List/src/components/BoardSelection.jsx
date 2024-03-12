@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import PropTypes from 'prop-types'; 
 
-// eslint-disable-next-line react/prop-types
 const BoardSelection = ({ boardName, boardLists }) => {
   const [listNumber, setListNumber] = useState(0);
 
@@ -19,6 +18,7 @@ const BoardSelection = ({ boardName, boardLists }) => {
 }
 
 BoardSelection.propTypes = {
+  boardName: PropTypes.string,
   boardLists: PropTypes.array,
 };
 

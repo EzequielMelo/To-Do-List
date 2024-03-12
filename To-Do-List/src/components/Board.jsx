@@ -3,7 +3,6 @@ import { MdEdit } from "react-icons/md";
 import List from './List';
 import PropTypes from 'prop-types'; 
 
-// eslint-disable-next-line react/prop-types
 const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onListNewName, onNewTaskAdded, onTaskDeleted, onTaskCompleted}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(boardName || 'Título de la Tabla');
@@ -48,7 +47,14 @@ const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onL
 };
 
 Board.propTypes = {
-    listsToShow: PropTypes.array, // Asegúrate de que tasks sea un array
+    boardName: PropTypes.string,
+    listsToShow: PropTypes.array,
+    onBoardTittleChange: PropTypes.func,
+    onListDeleted: PropTypes.func,
+    onListNewName: PropTypes.func,
+    onNewTaskAdded: PropTypes.func,
+    onTaskDeleted: PropTypes.func,
+    onTaskCompleted: PropTypes.func
 };
 
 export default Board;

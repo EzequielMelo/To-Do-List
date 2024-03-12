@@ -201,26 +201,8 @@ function App() {
       />
     )
   };
-  
-  /*
-  // eslint-disable-next-line react/prop-types
-  const NuevoTablero = ({ boards, clickAddList }) => {
-    return (
-      <>
-        {boards.map(board => (
-          <Board
-            key={board.id}
-            boardName={board.name}
-            onTittleChange
-            newListClicked={clickAddList}
-          />
-        ))}
-      </>
-    );
-  }
-  */
   NuevoTablero.propTypes = {
-    boards: PropTypes.array, // Asegúrate de que tasks sea un array
+    boards: PropTypes.array,
   };
 
   

@@ -7,7 +7,6 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import PropTypes from 'prop-types'; 
 
 
-// eslint-disable-next-line react/prop-types
 const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(initialListName || 'Título de la lista');
