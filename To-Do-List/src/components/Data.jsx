@@ -1,3 +1,4 @@
+import { AiOutlineHome } from "react-icons/ai";
 import { RxDashboard } from "react-icons/rx"
 import { FiLogOut } from "react-icons/fi"
 import { RiHistoryFill } from "react-icons/ri";
@@ -9,7 +10,7 @@ import { MdOutlineDashboardCustomize } from "react-icons/md";
 export const datas = [
     {
     id: 1,
-    icon: <MdOutlineDashboardCustomize />,
+    icon: <AiOutlineHome />,
     text: "Inicio",
     href: "/inicio"
     },
