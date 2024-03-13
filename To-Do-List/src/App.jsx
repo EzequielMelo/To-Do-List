@@ -19,6 +19,8 @@ function App() {
     return savedBoards ? JSON.parse(savedBoards) : [];
   });
 
+  //hacer aca la obtencion del index de la board que contiene el campo boardSelected en true
+  //para reemplazar el boardNumber=0 ademas con cada actualizacion del useState boards es mejor desde aca
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
     if(itemId==3 && item!==null)
