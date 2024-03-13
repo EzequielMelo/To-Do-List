@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Sidebar from './components/Sidebar'
-import Board from './components/Board'
 import CompleteLists from './components/CompleteLists'
-import PropTypes from 'prop-types'; 
 import MyBoards from './components/MyBoards';
 import History from './components/History';
+import BoardSelected from './components/BoardSelected';
 
 function App() {
   
@@ -37,7 +36,6 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('Board', JSON.stringify(boards));
-    /* console.log('Las listas se han actualizado:', lists); */
     }, [boards]);
 
   function generateUniqueId() {
@@ -200,47 +198,42 @@ function App() {
       return updatedBoards
     })
   }
-  
 
-  const NuevoTablero = ({ boards }) => {
-
-    if (boards.length === 0) {
-      return <p>No hay tableros disponibles.</p>;
-    }
-  
-    const board = boards[boardNumber]
-    return (
-      <Board
-        key={board.id}
-        boardName={board.name}
-        onBoardTittleChange={(newName) => handleNameChange(board.id, newName)}
-        listsToShow={board.lists}
-        onListDeleted={(listId) => handleListDeleted(listId)} 
-        onListNewName={(listId, newName) => handleListNameChange(listId, newName)}
-        onNewTaskAdded={(listId, newTask) => handleListNewTask(board.id, listId, newTask)}
-        onTaskDeleted={(listId, taskId) => handleListTaskDeleted(board.id, listId, taskId)}
-        onTaskCompleted={(listId, taskId) => handleListTaskCompleted(board.id, listId, taskId)}
-      />
-    )
-  };
-  NuevoTablero.propTypes = {
-    boards: PropTypes.array,
-  };
-
-  
   return (
-      <div className='w-full h-screen bg-back object-cover flex items-center'>
-        <Router>
-          <Sidebar onSidebarItemClick={handleSidebarItemClick} />
-          <Routes>
-            <Route path="/nuevo-tablero" element={<NuevoTablero boards={boards}/>} />
-            <Route path="/completadas" element={<CompleteLists />} />
-            <Route path="/historial" element={<History />} />
-            <Route path="/mis-tableros" element={<MyBoards boards={boards} onBoardDelete={(boardId) => handleBoardDeleted(boardId)}/>} />
-          </Routes>
-        </Router>
-
-      </div>
+    <div className='w-full h-screen bg-back object-cover flex items-center'>
+      <Router>
+        <Sidebar 
+          onSidebarItemClick={handleSidebarItemClick} 
+        />
+        <Routes>
+          <Route path="/inicio"
+            element={<BoardSelected 
+              boards={boards}
+              handleNameChange={(boardId, newName) => handleNameChange(boardId, newName)}
+              handleListDeleted={(listId) => handleListDeleted(listId)}
+              handleListNameChange= {(listId, newName) => handleListNameChange(listId, newName)}
+              handleListNewTask={(boardId, listId, newTask) => handleListNewTask(boardId, listId, newTask)}
+              handleListTaskDeleted={(boardId, listId, taskId) => handleListTaskDeleted(boardId, listId, taskId)} 
+              handleListTaskCompleted={(boardId, listId, taskId) => handleListTaskCompleted(boardId, listId, taskId)} 
+            />} 
+          />
+          <Route path="/completadas"
+            element={<CompleteLists   
+            />} 
+          />
+          <Route path="/historial"
+            element={<History 
+            />} 
+          />
+          <Route path="/mis-tableros"
+            element={<MyBoards 
+              boards={boards} 
+              onBoardDelete={(boardId) => handleBoardDeleted(boardId)}
+            />} 
+          />
+        </Routes>
+      </Router>
+    </div>
   )
 }
 

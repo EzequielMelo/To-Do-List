@@ -17,7 +17,7 @@ export const datas = [
     id: 2,
     icon: <MdOutlineDashboardCustomize />,
     text: "Nuevo Tablero",
-    href: "/nuevo-tablero"
+    href: "/inicio"
     },
     {
     id: 3,

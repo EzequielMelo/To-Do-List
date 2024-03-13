@@ -2,13 +2,15 @@ import { useEffect, useState } from "react"
 import PropTypes from 'prop-types'; 
 import { IoTrashOutline } from "react-icons/io5";
 import { IoMdOpen } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const BoardSelection = ({ boardName, boardLists, onBoardDelete }) => {
   const [listNumber, setListNumber] = useState(0);
+  const navigate = useNavigate();
+  const handleOnClick = () => navigate('/inicio');
 
   useEffect(() => {
     setListNumber(boardLists.length)
-    console.log(boardLists.length)
   },[boardLists]);
 
   return (
@@ -25,6 +27,7 @@ const BoardSelection = ({ boardName, boardLists, onBoardDelete }) => {
         <div className="inline-grid w-fit place-items-center">
           <IoMdOpen 
           className="size-7 text-slate-600"
+          onClick={handleOnClick}
           />
           <h3 className="flex text-xs text-slate-600">Seleccionar</h3>
         </div>
