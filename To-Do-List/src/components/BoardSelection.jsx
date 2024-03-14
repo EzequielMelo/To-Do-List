@@ -4,10 +4,13 @@ import { IoTrashOutline } from "react-icons/io5";
 import { IoMdOpen } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-const BoardSelection = ({ boardName, boardLists, onBoardDelete }) => {
+const BoardSelection = ({ boardName, boardLists, onBoardSelect, onBoardDelete }) => {
   const [listNumber, setListNumber] = useState(0);
   const navigate = useNavigate();
-  const handleOnClick = () => navigate('/inicio');
+  const handleOnClick = () => {
+    onBoardSelect();
+    navigate('/inicio')
+  }
 
   useEffect(() => {
     setListNumber(boardLists.length)
@@ -46,6 +49,7 @@ const BoardSelection = ({ boardName, boardLists, onBoardDelete }) => {
 BoardSelection.propTypes = {
   boardName: PropTypes.string,
   boardLists: PropTypes.array,
+  onBoardSelect: PropTypes.func,
   onBoardDelete: PropTypes.func,
 };
 

@@ -1,25 +1,13 @@
-import { useEffect, useState } from 'react';
 import Board from './Board';
 import PropTypes from 'prop-types'; 
 
-const BoardSelected = ({ boards, handleNameChange, handleListDeleted, handleListNameChange, handleListNewTask, handleListTaskDeleted, handleListTaskCompleted}) => {
+const BoardSelected = ({ boards, boardToShow, handleNameChange, handleListDeleted, handleListNameChange, handleListNewTask, handleListTaskDeleted, handleListTaskCompleted}) => {
 
-    const [indexToShow, setIndexToShow] = useState(0);
-
-    useEffect(() => {
-        setIndexToShow(boards.findIndex(board => board.boardSelected === true))
-    }, [boards]);
-
-    if (indexToShow === -1) {
-        setIndexToShow(0)
-    }
-    if (boards.length === 0) {
-        return <p>No hay tableros disponibles.</p>;
+    if (boardToShow === -1 || boards.length < 1) {
+        return <p>No hay tableros disponibles xd.</p>;
     }
 
-    console.log(indexToShow)
-
-    const board = boards[indexToShow];
+    const board = boards[boardToShow];
     
     return (
     <Board
@@ -38,6 +26,7 @@ const BoardSelected = ({ boards, handleNameChange, handleListDeleted, handleList
 
 BoardSelected.propTypes = {
     boards: PropTypes.array,
+    boardToShow: PropTypes.number,
     handleNameChange: PropTypes.func,
     handleListDeleted: PropTypes.func, 
     handleListNameChange: PropTypes.func,
