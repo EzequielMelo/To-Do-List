@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Sidebar from './components/Sidebar'
 import CompleteLists from './components/CompleteLists'
 import MyBoards from './components/MyBoards';
@@ -66,6 +67,13 @@ function App() {
       } else {
         setBoards(prevBoards => [...prevBoards, newBoard]);
       }
+      toast.success("Tablero creado con exito", {
+        position: "top-right",
+        style: {
+          background: '#212121',
+          color: "white"
+        },
+      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickAddBoard]);
@@ -73,11 +81,25 @@ function App() {
   useEffect(() => {
     if (clickAddList !== null && clickAddList !== 0) {
       setBoards(prevBoards => {
+
+        if(prevBoards.length < 1 || boardInUseIndex === -1)
+        {
+          toast.error("No hay un tablero seleccionado", {
+            position: "top-right",
+            style: {
+              background: '#212121',
+              color: "white"
+            },
+          });
+          return prevBoards;
+        }
+
         const updatedBoards = [...prevBoards];
         updatedBoards[boardInUseIndex].lists.push({ id: generateUniqueId(), name: 'Titulo de la Lista', tasks: [] });
         return updatedBoards;
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickAddList]);
 
   const handleBoardDeleted = (idToDelete) => {
@@ -98,6 +120,15 @@ function App() {
           updatedBoards[0].boardSelected = true;
         }
       }
+
+      toast.success("Tablero eliminado con exito", {
+        icon : '🗑️',
+        position: "top-right",
+        style: {
+          background: '#212121',
+          color: "white"
+        },
+      });
   
       return updatedBoards;
     });
@@ -115,6 +146,10 @@ function App() {
       return updatedBoards;
     });
   };
+
+  const handleBoardsChange = (updatedBoards) => {
+    setBoards(updatedBoards);
+  }
 
   const handleNameChange = (boardId, newName) => {
     setBoards((currentBoards) => {
@@ -236,6 +271,9 @@ function App() {
         <Sidebar 
           onSidebarItemClick={handleSidebarItemClick} 
         />
+        <Toaster 
+          position='top-center'
+        />
         <Routes>
           <Route path="/inicio"
             element={<BoardSelected 
@@ -262,6 +300,7 @@ function App() {
               boards={boards} 
               onBoardSelect={(boardId) => handleBoardToShow(boardId)}
               onBoardDelete={(boardId) => handleBoardDeleted(boardId)}
+              onBoardsChange={(myNewBoards) => handleBoardsChange(myNewBoards)}
             />} 
           />
         </Routes>
