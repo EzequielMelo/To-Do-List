@@ -5,7 +5,6 @@ import { FaCheck } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import PropTypes from 'prop-types'; 
-import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 
 
 const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete }) => {
@@ -14,7 +13,6 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
     const[newTask, setNewTask] = useState({
         name: "",
     });
-    const [parent, list] = useDragAndDrop(tasks)
 
     const handleClick = () => {
       setIsEditing(true);
@@ -63,8 +61,8 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
           (<input className='bg-slate-600 bg-opacity-60 rounded-2xl w-full px-[10px] py-[2px]' type="text" value={customText} onChange={handleChange} onBlur={handleTittleBlur} autoFocus/>)}
       </div>
       <div>       
-            <ul ref={parent}>
-            {list && list.map((task) => (
+            <ul>
+            {tasks && tasks.map((task) => (
               <li className="flex bg-slate-600 bg-opacity-60 rounded-2xl px-[10px] py-[2px] w-full max-w-72 mb-1 justify-between"
                key={task.id}>
                 <span className="flex max-w-72 w-fit" style={{textDecoration: task.completed ? 'line-through' : 'none'}}>
@@ -92,7 +90,7 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
         <div className="inline-grid w-fit place-items-center">
           <IoTrashOutline 
           className="size-7 text-slate-600"
-          onClick={() => { onListDeleted() }}
+          onClick={() =>  onListDeleted() }
           />
           <h3 className="flex text-xs text-slate-600">Eliminar Lista</h3>
         </div>

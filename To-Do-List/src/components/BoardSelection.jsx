@@ -37,7 +37,7 @@ const BoardSelection = ({ boardName, boardLists, onBoardSelect, onBoardDelete })
         <div className="inline-grid w-fit place-items-center">
           <IoTrashOutline 
           className="size-7 text-slate-600"
-          onClick={onBoardDelete}
+          onClick={() => onBoardDelete()}
           />
           <h3 className="flex text-xs text-slate-600">Borrar Tabla</h3>
         </div>

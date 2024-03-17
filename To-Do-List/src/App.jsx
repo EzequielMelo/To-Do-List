@@ -120,7 +120,6 @@ function App() {
           updatedBoards[0].boardSelected = true;
         }
       }
-
       toast.success("Tablero eliminado con exito", {
         icon : '🗑️',
         position: "top-right",
@@ -250,7 +249,7 @@ function App() {
                 ...list,
                 tasks: list.tasks.map((task) => 
                 task.id === completedTaskId ? { ...task, completed: !task.completed } : task
-          )}
+              )}
             }
             return list
           })
