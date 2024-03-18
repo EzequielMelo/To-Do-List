@@ -2,18 +2,27 @@ import BoardSelection from "./BoardSelection"
 import PropTypes from 'prop-types';
 import { useDragAndDrop } from "@formkit/drag-and-drop/react"; 
 import { animations } from "@formkit/drag-and-drop";
-import { useEffect} from "react";
+import { useEffect, useRef } from "react";
 
 const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
   const [parent, list] = useDragAndDrop(boards,{ 
     plugins: [animations()] 
   })
 
+  const listRef = useRef(list);
+
+  useEffect(() => {
+    if (listRef.current !== list) {
+      onBoardsChange(list);
+      listRef.current = list;
+    }
+  }, [list]);
+  /*
   useEffect(() => {
     onBoardsChange(list)
     console.log(list)
   }, [list]);
-
+*/
   return (
     <div className={`list-container`}>
       <h1 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3'>Mis Tableros</h1>
