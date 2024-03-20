@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: none;
+    margin-block: .8em;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #0F172A;
+    border-radius: 20px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #2D4E97;
+  }
+}
+
 @layer base {
   @font-face {
     font-family: "Poppins";
@@ -22,6 +43,7 @@
   }
   .list-container {
     @apply bg-glass h-[98%] w-[92%] rounded-3xl ml-6 p-4 
-    border transition-all duration-500 border-solid border-bhind relative mr-5 
+    border transition-all duration-500 border-solid border-bhind relative mr-5 overflow-y-auto scrollbar
   }
 }
+
