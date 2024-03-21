@@ -10,7 +10,7 @@ export default {
       colors: {
         glass: "rgba(10, 9, 24, 0.7)",
         grey: "rgb(158,172,186)",
-        bhind: "rgb(0, 0, 0)"
+        bhind: "rgb(0, 0, 0)",
       }
     },
     backgroundImage : {

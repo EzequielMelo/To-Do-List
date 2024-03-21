@@ -271,7 +271,7 @@ function App() {
           onSidebarItemClick={handleSidebarItemClick} 
         />
         <Toaster 
-          position='top-center'
+          position='top-right'
         />
         <Routes>
           <Route path="/inicio"
@@ -295,7 +295,8 @@ function App() {
             />} 
           />
           <Route path="/mis-tableros"
-            element={<MyBoards 
+            element={<MyBoards
+              key={generateUniqueId()} 
               boards={boards} 
               onBoardSelect={(boardId) => handleBoardToShow(boardId)}
               onBoardDelete={(boardId) => handleBoardDeleted(boardId)}
