@@ -17,14 +17,14 @@ const BoardSelection = ({ boardName, boardLists, onBoardSelect, onBoardDelete })
   },[boardLists]);
 
   return (
-    <div className='inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto min-w-72 max-w-100 gap-3'>
-      <h3 className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-90 px-[10px] py-[2px] items-center'>{(boardName)}</h3>
+    <div className='inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto min-w-[26.5rem] max-w-80 gap-3'>
+      <h3 className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full px-[10px] py-[2px] items-center'>{(boardName)}</h3>
       <h3 className="text-slate-600">Listas: {listNumber}</h3>
-      <div className=" bg-black rounded-2xl p-1">
+      <div className=" scrollbar bg-back rounded-xl p-1 h-44 overflow-y-auto">
         {boardLists && boardLists.map((list) => (
-            <div className="inline-grid bg-slate-600 bg-opacity-60 rounded-2xl px-[10px] py-[2px] mb-1 justify-between max-w-10"
+            <div className="inline-grid bg-slate-600 bg-opacity-60 rounded-md px-[10px] py-[2px] mb-1 justify-between w-fit m-1"
               key={list.id}>
-              <span className="inline-grid text-[9px]">{list.name}</span>
+              <span className="inline-grid text-[12px]">{list.name}</span>
             </div>
         ))}
       </div>
