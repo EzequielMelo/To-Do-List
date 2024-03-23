@@ -11,8 +11,24 @@ const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
   const [parent, list] = useDragAndDrop(boards,{ 
     plugins: [animations()] 
   })
+  /* Pensar en una solucion asi con customHooks
+  const inputElement = useRef(null);
 
-  const handleConsoleLog = () => {
+  useEffect(() => {
+    HandleShowingList()
+  }, [boards]);
+
+  const HandleShowingList = () => {
+    const [parent, list] = useDragAndDrop(boards,{ 
+      plugins: [animations()] 
+    })
+    inputElement(parent);
+    setAuxBoards(list)
+    onBoardsChange(auxBoards)
+  }
+  */
+
+  const handleBoardsChange = () => {
     console.log("hello world")
     onBoardsChange(auxBoards)
   }
@@ -34,7 +50,7 @@ const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
       </div>
       <div className="flex border-l border-gray-600">
         <button
-          onClick={() => toast.remove(t.id, handleConsoleLog())}
+          onClick={() => toast.remove(t.id, handleBoardsChange())}
           className="w-full border border-transparent rounded-none p-2 flex items-center justify-center text-xs font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
         >
           Aceptar
@@ -58,7 +74,6 @@ const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
     toast.remove(toastId);
     toastId;
     setAuxBoards(list)
-    //onBoardsChange(list)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
 

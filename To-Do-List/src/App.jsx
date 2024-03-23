@@ -8,12 +8,9 @@ import History from './components/History';
 import BoardSelected from './components/BoardSelected';
 
 function App() {
-  
-  const [clickedItem, setClickedItem] = useState();
   const [clickAddList, setClickAddList] = useState(0);
   const [clickAddBoard, setClickAddBoard] = useState(0);
   const [boardInUseIndex, setBoardInUseIndex] = useState(0)
-
   const [boards, setBoards] = useState(() => {
     let savedBoards = localStorage.getItem('Board');
     return savedBoards ? JSON.parse(savedBoards) : [];
@@ -23,12 +20,10 @@ function App() {
     const itemId = item.id;
     if(itemId==3 && item!==null)
     {
-      setClickedItem(item);
       setClickAddList(prevCounter => prevCounter + 1);
     }
     if(itemId==2 && item!==null)
     {
-      setClickedItem(item);
       setClickAddBoard(prevCounter => prevCounter + 1);
     }
 
