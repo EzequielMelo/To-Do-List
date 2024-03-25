@@ -4,6 +4,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { FaCheckDouble } from "react-icons/fa6";
 import PropTypes from 'prop-types'; 
 
 
@@ -52,20 +53,20 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
     }
 
   return (
-    <div className=' inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto max-w-80 gap-3'>      
+    <div className=' inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto min-w-72 max-w-90 gap-3'>      
       <div className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full'>
           {!isEditing 
           ? 
-          (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-72 px-[10px] py-[2px] justify-between items-center' onClick={handleClick}>{customText}<MdEdit /></h3>) 
+          (<h3 className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-80 px-[10px] py-[2px] justify-between items-center' onClick={handleClick}>{customText}<MdEdit /></h3>) 
           : 
           (<input className='bg-slate-600 bg-opacity-60 rounded-2xl w-full px-[10px] py-[2px]' type="text" value={customText} onChange={handleChange} onBlur={handleTittleBlur} autoFocus/>)}
       </div>
       <div>       
             <ul>
             {tasks && tasks.map((task) => (
-              <li className="flex bg-slate-600 bg-opacity-60 rounded-2xl px-[10px] py-[2px] w-full max-w-72 mb-1 justify-between"
+              <li className="flex bg-slate-600 bg-opacity-60 rounded-2xl px-[10px] py-[2px] w-full max-w-80 mb-1 justify-between"
                key={task.id}>
-                <span className="flex max-w-72 w-fit" style={{textDecoration: task.completed ? 'line-through' : 'none'}}>
+                <span className="flex max-w-80 w-fit" style={{textDecoration: task.completed ? 'line-through' : 'none'}}>
                   {task.name}
                 </span>
                 <span className="flex gap-x-1 items-center pl-2">
@@ -77,7 +78,7 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
             </ul>
       </div>
       <div className='flex w-full'>
-            <input name="name" className='bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-72 px-[10px] py-[2px] my-2' value={newTask.name} onChange={handleInputChange}></input>
+            <input name="name" className='bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-80 px-[10px] py-[2px] my-2' value={newTask.name} onChange={handleInputChange}></input>
       </div>
       <div className='flex w-full justify-center gap-2'>
         <div className="inline-grid w-fit place-items-center">
@@ -93,6 +94,13 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
           onClick={() =>  onListDeleted() }
           />
           <h3 className="flex text-xs text-slate-600">Eliminar Lista</h3>
+        </div>
+        <div className="inline-grid w-fit place-items-center">
+          <FaCheckDouble 
+          className="size-7 text-slate-600"
+          onClick={() =>  onListDeleted() }
+          />
+          <h3 className="flex text-xs text-slate-600">Completar</h3>
         </div>
       </div>
     </div>
