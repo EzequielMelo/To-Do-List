@@ -3,7 +3,7 @@ import { MdEdit } from "react-icons/md";
 import List from './List';
 import PropTypes from 'prop-types'; 
 
-const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onListNewName, onNewTaskAdded, onTaskDeleted, onTaskCompleted}) => {
+const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onListNewName, onNewTaskAdded, onTaskDeleted, onTaskCompleted, onListCompleted}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(boardName || 'Título de la Tabla');
     
@@ -40,6 +40,7 @@ const Board = ({ boardName, onBoardTittleChange, listsToShow, onListDeleted, onL
                 taskToAdd={(newTask) => onNewTaskAdded(list.id, newTask)}
                 onTaskClomplete={(taskId) => onTaskCompleted(list.id, taskId)}
                 onTaskDelete={(taskId) => onTaskDeleted(list.id, taskId)}
+                onListComplete={() => onListCompleted(list.id)}
                 />
             ))}
         </div>
@@ -54,7 +55,8 @@ Board.propTypes = {
     onListNewName: PropTypes.func,
     onNewTaskAdded: PropTypes.func,
     onTaskDeleted: PropTypes.func,
-    onTaskCompleted: PropTypes.func
+    onTaskCompleted: PropTypes.func,
+    onListCompleted: PropTypes.func,
 };
 
 export default Board;

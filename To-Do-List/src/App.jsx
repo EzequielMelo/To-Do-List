@@ -15,6 +15,10 @@ function App() {
     let savedBoards = localStorage.getItem('Board');
     return savedBoards ? JSON.parse(savedBoards) : [];
   });
+  const [completeList, setCompleteList] = useState(() => {
+    let savedLists = localStorage.getItem('CompleteList');
+    return savedLists ? JSON.parse(savedLists) : [];
+  });
 
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
@@ -46,6 +50,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('Board', JSON.stringify(boards));
   }, [boards]);
+
+  useEffect(() => {
+    localStorage.setItem('CompleteList', JSON.stringify(completeList));
+  }, [completeList]);
 
   function generateUniqueId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -257,6 +265,24 @@ function App() {
       })
       return updatedBoards
     })
+  }
+
+  //Seguir desde este paso el manejador de borrar una lista de una board y añadirla al array de listasCompletadas
+  const handleListCompleted = () => {
+    setBoards((currentBoards) => {
+      
+      const updatedBoards = [...currentBoards];
+      const indexToDelete = updatedBoards[boardInUseIndex].lists.findIndex(list => list.id === idToDelete);
+
+      if (indexToDelete === -1) {
+          return currentBoards;
+      }
+
+      updatedBoards[boardInUseIndex].lists = updatedBoards[boardInUseIndex].lists.filter((list, index) => index !== indexToDelete);
+
+      return updatedBoards;
+
+    });
   }
 
   return (

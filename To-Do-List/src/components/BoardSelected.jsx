@@ -1,7 +1,7 @@
 import Board from './Board';
 import PropTypes from 'prop-types'; 
 
-const BoardSelected = ({ boards, boardToShow, handleNameChange, handleListDeleted, handleListNameChange, handleListNewTask, handleListTaskDeleted, handleListTaskCompleted}) => {
+const BoardSelected = ({ boards, boardToShow, handleNameChange, handleListDeleted, handleListNameChange, handleListNewTask, handleListTaskDeleted, handleListTaskCompleted, handleListCompleted}) => {
 
     if (boardToShow === -1 || boards.length < 1) {
         return <p>No hay tableros disponibles xd.</p>;
@@ -20,6 +20,7 @@ const BoardSelected = ({ boards, boardToShow, handleNameChange, handleListDelete
         onNewTaskAdded={(listId, newTask) => handleListNewTask(board.id, listId, newTask)}
         onTaskDeleted={(listId, taskId) => handleListTaskDeleted(board.id, listId, taskId)}
         onTaskCompleted={(listId, taskId) => handleListTaskCompleted(board.id, listId, taskId)}
+        onListCompleted={(listId) => handleListCompleted(board.id, listId)}
     />
     )
 }
@@ -33,6 +34,7 @@ BoardSelected.propTypes = {
     handleListNewTask: PropTypes.func,
     handleListTaskDeleted: PropTypes.func,
     handleListTaskCompleted: PropTypes.func,
+    handleListCompleted: PropTypes.func,
 };
 
 export default BoardSelected

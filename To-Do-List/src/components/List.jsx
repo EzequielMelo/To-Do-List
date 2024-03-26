@@ -8,7 +8,7 @@ import { FaCheckDouble } from "react-icons/fa6";
 import PropTypes from 'prop-types'; 
 
 
-const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete }) => {
+const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete, onListComplete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(initialListName || 'Título de la lista');
     const[newTask, setNewTask] = useState({
@@ -98,7 +98,7 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
         <div className="inline-grid w-fit place-items-center">
           <FaCheckDouble 
           className="size-7 text-slate-600"
-          onClick={() =>  onListDeleted() }
+          onClick={() =>  onListComplete() }
           />
           <h3 className="flex text-xs text-slate-600">Completar</h3>
         </div>
@@ -115,6 +115,7 @@ List.propTypes = {
   taskToAdd: PropTypes.func,
   onTaskClomplete: PropTypes.func,
   onTaskDelete: PropTypes.func,
+  onListComplete: PropTypes.func,
 };
 
 export default List
