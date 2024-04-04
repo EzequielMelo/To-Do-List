@@ -20,7 +20,7 @@ const BoardSelected = ({ boards, boardToShow, handleNameChange, handleListDelete
         onNewTaskAdded={(listId, newTask) => handleListNewTask(board.id, listId, newTask)}
         onTaskDeleted={(listId, taskId) => handleListTaskDeleted(board.id, listId, taskId)}
         onTaskCompleted={(listId, taskId) => handleListTaskCompleted(board.id, listId, taskId)}
-        onListCompleted={(listId) => handleListCompleted(board.id, listId)}
+        onListCompleted={(listId) => handleListCompleted(listId)}
     />
     )
 }

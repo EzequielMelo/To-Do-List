@@ -268,22 +268,45 @@ function App() {
   }
 
   //Seguir desde este paso el manejador de borrar una lista de una board y añadirla al array de listasCompletadas
-  const handleListCompleted = () => {
+  const handleListCompleted = (idToComplete) => {
     setBoards((currentBoards) => {
-      
-      const updatedBoards = [...currentBoards];
-      const indexToDelete = updatedBoards[boardInUseIndex].lists.findIndex(list => list.id === idToDelete);
-
-      if (indexToDelete === -1) {
-          return currentBoards;
+      // Encuentra el tablero en uso
+      const board = currentBoards[boardInUseIndex];
+      console.log(board)
+  
+      // Encuentra la lista a completar
+      const listIndex = board.lists.findIndex(list => list.id === idToComplete);
+      console.log(idToComplete)
+      if (listIndex === -1) {
+        console.error("La lista no se encontró en el tablero en uso.");
+        console.log(listIndex)
+        return currentBoards;
       }
-
-      updatedBoards[boardInUseIndex].lists = updatedBoards[boardInUseIndex].lists.filter((list, index) => index !== indexToDelete);
-
+      const completedList = board.lists[listIndex];
+  
+      setCompleteList(prevCompleteLists => {
+        let newCompleteList = [...prevCompleteLists, completedList];
+        // Verificar si se supera el límite máximo
+        if (newCompleteList.length > 20) {
+          // Eliminar las primeras listas para mantener el tamaño máximo
+          newCompleteList = newCompleteList.slice(newCompleteList.length - 20);
+        }
+        return newCompleteList;
+      });
+  
+      // Elimina la lista del tablero en uso
+      const updatedBoard = {
+        ...board,
+        lists: board.lists.filter((_, index) => index !== listIndex)
+      };
+  
+      // Actualiza el tablero en uso en boards
+      const updatedBoards = [...currentBoards];
+      updatedBoards[boardInUseIndex] = updatedBoard;
+  
       return updatedBoards;
-
     });
-  }
+  };
 
   return (
     <div className='w-full h-screen bg-back object-cover flex items-center'>
@@ -305,10 +328,12 @@ function App() {
               handleListNewTask={(boardId, listId, newTask) => handleListNewTask(boardId, listId, newTask)}
               handleListTaskDeleted={(boardId, listId, taskId) => handleListTaskDeleted(boardId, listId, taskId)} 
               handleListTaskCompleted={(boardId, listId, taskId) => handleListTaskCompleted(boardId, listId, taskId)} 
+              handleListCompleted={(listId) => handleListCompleted(listId)}
             />} 
           />
           <Route path="/completadas"
-            element={<CompleteLists   
+            element={<CompleteLists 
+              listsCompleted={completeList}  
             />} 
           />
           <Route path="/historial"
