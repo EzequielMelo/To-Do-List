@@ -280,13 +280,19 @@ function App() {
       const completedList = board.lists[listIndex];
   
       setCompleteList(prevCompleteLists => {
-        let newCompleteList = [...prevCompleteLists, completedList];
-        // Verificar si se supera el límite máximo
-        if (newCompleteList.length > 5) {
-          // Eliminar las primeras listas para mantener el tamaño máximo
-          newCompleteList = newCompleteList.slice(newCompleteList.length - 5);
+        if(completedList.tasks.length >= 1)
+        {
+          let newCompleteList = [...prevCompleteLists, completedList];
+          // Verificar si se supera el límite máximo
+          if (newCompleteList.length > 12) {
+            // Eliminar las primeras listas para mantener el tamaño máximo
+            newCompleteList = newCompleteList.slice(newCompleteList.length - 12);
+          }
+          return newCompleteList;
+        }else
+        {
+          return prevCompleteLists;
         }
-        return newCompleteList;
       });
   
       // Elimina la lista del tablero en uso
