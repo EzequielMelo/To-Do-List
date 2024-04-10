@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Sidebar from './components/Sidebar'
-import CompleteLists from './components/CompleteLists'
+import CompleteLists from './components/CompleteListsBoard'
 import MyBoards from './components/MyBoards';
 import History from './components/History';
 import BoardSelected from './components/BoardSelected';
@@ -267,19 +267,14 @@ function App() {
     })
   }
 
-  //Seguir desde este paso el manejador de borrar una lista de una board y añadirla al array de listasCompletadas
   const handleListCompleted = (idToComplete) => {
     setBoards((currentBoards) => {
       // Encuentra el tablero en uso
       const board = currentBoards[boardInUseIndex];
-      console.log(board)
   
       // Encuentra la lista a completar
       const listIndex = board.lists.findIndex(list => list.id === idToComplete);
-      console.log(idToComplete)
       if (listIndex === -1) {
-        console.error("La lista no se encontró en el tablero en uso.");
-        console.log(listIndex)
         return currentBoards;
       }
       const completedList = board.lists[listIndex];
@@ -287,9 +282,9 @@ function App() {
       setCompleteList(prevCompleteLists => {
         let newCompleteList = [...prevCompleteLists, completedList];
         // Verificar si se supera el límite máximo
-        if (newCompleteList.length > 20) {
+        if (newCompleteList.length > 5) {
           // Eliminar las primeras listas para mantener el tamaño máximo
-          newCompleteList = newCompleteList.slice(newCompleteList.length - 20);
+          newCompleteList = newCompleteList.slice(newCompleteList.length - 5);
         }
         return newCompleteList;
       });

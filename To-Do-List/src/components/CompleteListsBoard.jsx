@@ -1,21 +1,13 @@
-import { useEffect, useState } from 'react';
-import List from './List';
+import CompleteList from "./CompleteList"
 import PropTypes from 'prop-types'; 
 
-const CompleteLists = ({listsCompleted}) => {
-  const [listNumber, setListNumber] = useState(0);
-
-  useEffect(() => {
-    setListNumber(listsCompleted.lenght)
-  },[listsCompleted]);
-
+const CompleteListsBoard = ({listsCompleted}) => {
   return (
     <div className={`list-container`}>
       <h1>Mis listas completadas</h1>
-      <h1>Listas completadas: {listNumber}</h1>
       <div>       
       {listsCompleted && listsCompleted.map((list) => (
-            <List 
+            <CompleteList
             key={list.id} 
             initialListName={list.name} 
             tasks={list.tasks}
@@ -26,8 +18,8 @@ const CompleteLists = ({listsCompleted}) => {
   )
 }
 
-CompleteLists.propTypes = {
+CompleteListsBoard.propTypes = {
   listsCompleted: PropTypes.array,
 };
 
-export default CompleteLists
+export default CompleteListsBoard
