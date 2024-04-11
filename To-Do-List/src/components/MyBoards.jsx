@@ -2,12 +2,12 @@ import BoardSelection from "./BoardSelection"
 import PropTypes from 'prop-types';
 import { useDragAndDrop } from "@formkit/drag-and-drop/react"; 
 import { animations } from "@formkit/drag-and-drop";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect } from "react";
+//import toast from "react-hot-toast";
 
 
 const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
-  const [auxBoards, setAuxBoards] = useState(boards)
+  //const [auxBoards, setAuxBoards] = useState(boards)
   const [parent, list] = useDragAndDrop(boards,{ 
     plugins: [animations()] 
   })
@@ -27,12 +27,7 @@ const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
     onBoardsChange(auxBoards)
   }
   */
-
-  const handleBoardsChange = () => {
-    console.log("hello world")
-    onBoardsChange(auxBoards)
-  }
-
+/*
   const toastId =  toast.custom((t)  => (
     <div
       className={`${
@@ -76,6 +71,11 @@ const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
     setAuxBoards(list)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
+  */
+
+  useEffect(() => {
+    onBoardsChange(list);
+  }, [list, onBoardsChange]);
 
   return (
     <div className={`list-container`}>

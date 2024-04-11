@@ -1,7 +1,6 @@
 import { AiOutlineHome } from "react-icons/ai";
 import { RxDashboard } from "react-icons/rx"
 import { FiLogOut } from "react-icons/fi"
-import { RiHistoryFill } from "react-icons/ri";
 import { FaCheckDouble } from "react-icons/fa6";
 import { TbListCheck } from "react-icons/tb";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
@@ -33,18 +32,12 @@ export const datas = [
     },
     {
     id: 5,
-    icon: <RiHistoryFill />,
-    text: "Historial",
-    href: "/historial"
-    },
-    {
-    id: 6,
     icon: <RxDashboard />,
     text: "Mis Tableros",
     href: "/mis-tableros"
     },
     {
-    id: 7,
+    id: 6,
     icon: <FiLogOut />,
     text: "Salir",
     href: "/salir"

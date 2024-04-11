@@ -4,7 +4,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import Sidebar from './components/Sidebar'
 import CompleteLists from './components/CompleteListsBoard'
 import MyBoards from './components/MyBoards';
-import History from './components/History';
 import BoardSelected from './components/BoardSelected';
 
 function App() {
@@ -335,10 +334,6 @@ function App() {
           <Route path="/completadas"
             element={<CompleteLists 
               listsCompleted={completeList}  
-            />} 
-          />
-          <Route path="/historial"
-            element={<History 
             />} 
           />
           <Route path="/mis-tableros"
