@@ -77,6 +77,8 @@ const MyBoards = ({ boards, onBoardSelect, onBoardDelete, onBoardsChange }) => {
     onBoardsChange(list);
   }, [list, onBoardsChange]);
 
+  console.log(list)
+
   return (
     <div className={`list-container`}>
       <h1 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3'>Mis Tableros</h1>
