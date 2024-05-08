@@ -5,15 +5,32 @@ import { FaCheck } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaCheckDouble } from "react-icons/fa6";
+import { MdOutlineDragHandle } from "react-icons/md";
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 import PropTypes from 'prop-types'; 
 
 
-const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete, onListComplete }) => {
+const List = ({ id, initialListName, onTittleChange, onListDeleted, tasks, taskToAdd, onTaskDelete, onTaskClomplete, onListComplete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [customText, setCustomText] = useState(initialListName || 'Título de la lista');
     const[newTask, setNewTask] = useState({
         name: "",
     });
+
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+  
+    } = useSortable({ id });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+    };
 
     const handleClick = () => {
       setIsEditing(true);
@@ -53,7 +70,7 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
     }
 
   return (
-    <div className=' inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto min-w-72 max-w-90 gap-3'>      
+    <div ref={setNodeRef} style={style} className=' inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto min-w-72 max-w-90 gap-3'>      
       <div className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full'>
           {!isEditing 
           ? 
@@ -103,11 +120,18 @@ const List = ({ initialListName, onTittleChange, onListDeleted, tasks, taskToAdd
           <h3 className="flex text-xs text-slate-600">Completar</h3>
         </div>
       </div>
+      <div className="flex w-full justify-center ">
+        <MdOutlineDragHandle
+        className="size-10 text-slate-600"
+        {...attributes} {...listeners}
+        />
+      </div>
     </div>
   )
 }
 
 List.propTypes = {
+  id: PropTypes.string,
   initialListName: PropTypes.string,
   onTittleChange: PropTypes.func,
   onListDeleted: PropTypes.func,

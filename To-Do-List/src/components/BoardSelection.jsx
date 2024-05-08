@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 import PropTypes from 'prop-types'; 
 import { IoTrashOutline } from "react-icons/io5";
 import { IoMdOpen } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineDragHandle } from "react-icons/md";
 
-const BoardSelection = ({ boardName, boardLists, onBoardSelect, onBoardDelete }) => {
+
+const BoardSelection = ({ id, boardName, boardLists, onBoardSelect, onBoardDelete }) => {
   const [listNumber, setListNumber] = useState(0);
   const navigate = useNavigate();
   const handleOnClick = () => {
@@ -12,12 +16,26 @@ const BoardSelection = ({ boardName, boardLists, onBoardSelect, onBoardDelete })
     navigate('/inicio')
   }
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   useEffect(() => {
     setListNumber(boardLists.length)
   },[boardLists]);
 
   return (
-    <div className='inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 p-3 h-auto min-w-[26.5rem] max-w-80 gap-3'>
+    <div ref={setNodeRef} style={style} className='inline-grid bg-slate-900 bg-opacity-90 rounded-3xl m-2 pt-3 px-3 h-auto min-w-[26.5rem] max-w-80 gap-3'>
       <h3 className='flex bg-slate-600 bg-opacity-60 rounded-2xl w-full px-[10px] py-[2px] items-center'>{(boardName)}</h3>
       <h3 className="text-slate-600">Listas: {listNumber}</h3>
       <div className=" scrollbar bg-back rounded-xl p-1 h-44 overflow-y-auto">
@@ -44,11 +62,18 @@ const BoardSelection = ({ boardName, boardLists, onBoardSelect, onBoardDelete })
           <h3 className="flex text-xs text-slate-600">Borrar Tabla</h3>
         </div>
       </div>
+      <div className="flex w-full justify-center ">
+      <MdOutlineDragHandle
+      className="size-10 text-slate-600"
+      {...attributes} {...listeners}
+       />
+      </div>
     </div>
   )
 }
 
 BoardSelection.propTypes = {
+  id: PropTypes.string,
   boardName: PropTypes.string,
   boardLists: PropTypes.array,
   onBoardSelect: PropTypes.func,

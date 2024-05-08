@@ -1,30 +1,300 @@
-import Board from './Board';
-import PropTypes from 'prop-types'; 
+import List from './List';
+import { MdEdit } from "react-icons/md";
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import {
+    DndContext, 
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+  } from '@dnd-kit/core';
+  import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    rectSwappingStrategy,
+  } from '@dnd-kit/sortable'; 
 
-const BoardSelected = ({ boards, boardToShow, handleNameChange, handleListDeleted, handleListNameChange, handleListNewTask, handleListTaskDeleted, handleListTaskCompleted, handleListCompleted}) => {
+const BoardSelected = ({ boardToShow }) => {
+    const [boards, setBoards] = useState(() => {
+        let savedBoards = localStorage.getItem('Board');
+        return savedBoards ? JSON.parse(savedBoards) : [];
+    });
+    
+    const [completeList, setCompleteList] = useState(() => {
+        let savedLists = localStorage.getItem('CompleteList');
+        return savedLists ? JSON.parse(savedLists) : [];
+    });
+    
+    useEffect(() => {
+    localStorage.setItem('Board', JSON.stringify(boards));
+    }, [boards]);
+    
+    useEffect(() => {
+        localStorage.setItem('CompleteList', JSON.stringify(completeList));
+    }, [completeList]);
+      
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+          coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
-    if (boardToShow === -1 || boards.length < 1) {
+    const getItemPos = (board, id) => board.lists.findIndex(boardList => boardList.id === id);
+
+    function handleDragEnd(event) {
+        const { active, over } = event;
+        
+        // Si la lista se deja caer en el mismo lugar, no hacemos nada
+        if (active.id === over.id) return;
+      
+        setBoards(boards => {
+            // Copiamos los tableros para no mutar el estado directamente
+            const updatedBoards = [...boards];
+        
+            // Obtenemos el tablero activo
+            const targetBoard = updatedBoards[boardToShow];
+        
+            // Obtenemos la posición original y la nueva posición de la lista dentro del mismo tablero
+            const originalPos = getItemPos(targetBoard, active.id);
+            const newPos = getItemPos(targetBoard, over.id);
+        
+            // Reordenamos las listas dentro del mismo tablero utilizando array-move
+            targetBoard.lists = arrayMove(targetBoard.lists, originalPos, newPos);
+        
+            return updatedBoards;
+        });
+    }
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [customText, setCustomText] = useState('');
+
+    // Verificar si hay una board seleccionada
+    const isBoardSelected = boardToShow !== -1 && boards.length > 0;
+
+    // Si no hay una board seleccionada, mostrar un mensaje
+    if (!isBoardSelected) {
         return <p>No hay tableros disponibles xd.</p>;
     }
 
+    // Si hay una board seleccionada, obtener la board actual
     const board = boards[boardToShow];
+
+    const handleClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleChange = (e) => {
+        setCustomText(e.target.value);
+    };
+
+    const handleNameChange = (boardId, newName) => {
+        setBoards((currentBoards) => {
+          const updatedBoards = [...currentBoards];
+          updatedBoards[boardToShow].name = newName;
+    
+          return updatedBoards;
+        });
+      };
+
+      const handleBlur = () => {
+        let updatedText = customText.trim();
+        if (updatedText === '') {
+            updatedText = 'Título de la Tabla';
+            setCustomText(updatedText);
+        }
+        setIsEditing(false);
+        handleNameChange(board.id, updatedText);
+    };
+
+    const handleListNameChange = (idToChange, newName) => {
+        setBoards((currentBoards) => {
+          const updatedBoards = [...currentBoards];
+          const indexToChange = updatedBoards[boardToShow].lists.findIndex(list => list.id === idToChange);
+    
+          if (indexToChange === -1) {
+              return currentBoards;
+          }
+    
+          updatedBoards[boardToShow].lists[indexToChange].name = newName;
+    
+          return updatedBoards;
+        });
+    };
+
+    const handleListDeleted = (idToDelete) => {
+        setBoards((currentBoards) => {
+          
+          const updatedBoards = [...currentBoards];
+          const indexToDelete = updatedBoards[boardToShow].lists.findIndex(list => list.id === idToDelete);
+    
+          if (indexToDelete === -1) {
+              return currentBoards;
+          }
+    
+          updatedBoards[boardToShow].lists = updatedBoards[boardToShow].lists.filter((list, index) => index !== indexToDelete);
+    
+          return updatedBoards;
+    
+        });
+    };
+
+    const handleListNewTask = (boardId, listId, newTask) => {
+        setBoards(prevBoards => {
+          const updatedBoards = prevBoards.map(board => {
+            if (board.id === boardId) {
+              const updatedLists = board.lists.map(list => {
+                if (list.id === listId) {
+                  return {
+                    ...list,
+                    tasks: [...list.tasks, newTask]
+                  };
+                }
+                return list;
+              });
+              return {
+                ...board,
+                lists: updatedLists
+              };
+            }
+            return board;
+          });
+          return updatedBoards;
+        });
+    };
+
+    const handleListTaskCompleted = (boardId, listId, completedTaskId) => {
+        setBoards(prevBoards => {
+          const updatedBoards = prevBoards.map(board => {
+            if (board.id === boardId) {
+              const updatedLists = board.lists.map(list => {
+                if(list.id === listId) {
+                  return {
+                    ...list,
+                    tasks: list.tasks.map((task) => 
+                    task.id === completedTaskId ? { ...task, completed: !task.completed } : task
+                  )}
+                }
+                return list
+              })
+              return {
+                ...board,
+                lists: updatedLists
+              }
+            }
+            return board
+          })
+          return updatedBoards
+        })
+    }
+    
+    const handleListTaskDeleted = (boardId, listId, deleteTaskId) => {
+        setBoards(prevBoards => {
+          const updatedBoards = prevBoards.map(board => {
+            if (board.id === boardId) {
+              const updatedLists = board.lists.map(list => {
+                if(list.id === listId) {
+                  return {
+                    ...list,
+                    tasks: list.tasks.filter(task => task.id !== deleteTaskId)
+                  }
+                }
+                return list
+              })
+              return {
+                ...board,
+                lists: updatedLists
+              }
+            }
+            return board
+          })
+          return updatedBoards
+        })
+    }
+
+    const handleListCompleted = (idToComplete) => {
+        setBoards((currentBoards) => {
+          // Encuentra el tablero en uso
+            const board = currentBoards[boardToShow];
+        
+            // Encuentra la lista a completar
+            const listIndex = board.lists.findIndex(list => list.id === idToComplete);
+            if (listIndex === -1) {
+                return currentBoards;
+            }
+            const completedList = board.lists[listIndex];
+            console.log(completedList);
+            console.log(listIndex);
+            setCompleteList(prevCompleteLists => {
+            if(completedList.tasks.length >= 1)
+            {
+                console.log("entro")
+                let newCompleteList = [...prevCompleteLists, completedList];
+                // Verificar si se supera el límite máximo
+                if (newCompleteList.length > 12) {
+                    // Eliminar las primeras listas para mantener el tamaño máximo
+                    newCompleteList = newCompleteList.slice(newCompleteList.length - 12);
+                }
+                return newCompleteList;
+            }else
+            {
+                return prevCompleteLists;
+            }
+          });
+      
+          // Elimina la lista del tablero en uso
+          const updatedBoard = {
+            ...board,
+            lists: board.lists.filter((_, index) => index !== listIndex)
+          };
+      
+          // Actualiza el tablero en uso en boards
+          const updatedBoards = [...currentBoards];
+          updatedBoards[boardToShow] = updatedBoard;
+      
+          return updatedBoards;
+        });
+    };
     
     return (
-    <Board
-        key={board.id}
-        boardName={board.name}
-        onBoardTittleChange={(newName) => handleNameChange(board.id, newName)}
-        listsToShow={board.lists}
-        onListDeleted={(listId) => handleListDeleted(listId)} 
-        onListNewName={(listId, newName) => handleListNameChange(listId, newName)}
-        onNewTaskAdded={(listId, newTask) => handleListNewTask(board.id, listId, newTask)}
-        onTaskDeleted={(listId, taskId) => handleListTaskDeleted(board.id, listId, taskId)}
-        onTaskCompleted={(listId, taskId) => handleListTaskCompleted(board.id, listId, taskId)}
-        onListCompleted={(listId) => handleListCompleted(listId)}
-    />
-    )
-}
+        <div className={`list-container`}>
+            {!isEditing ? (
+                <h3 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3' onClick={handleClick}>{board.name}<MdEdit /></h3>
+            ) : (
+                <input className='flex w-80 bg-slate-600 bg-opacity-60 rounded-full px-[10px] py-[2px] mb-3' type="text" value={customText} onChange={handleChange} onBlur={handleBlur} autoFocus />
+            )}
+            <DndContext 
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            >
+                <SortableContext 
+                items={board.lists}
+                strategy={rectSwappingStrategy}
+                > 
+                    {board.lists && board.lists.map((list) => (
+                        <List
+                            key={list.id}
+                            id={list.id}
+                            initialListName={list.name}
+                            onTittleChange={(newName) => handleListNameChange(list.id, newName)}
+                            onListDeleted={() => handleListDeleted(list.id)}
+                            tasks={list.tasks}
+                            taskToAdd={(newTask) => handleListNewTask(board.id, list.id, newTask)}
+                            onTaskClomplete={(taskId) => handleListTaskCompleted(board.id, list.id, taskId)}
+                            onTaskDelete={(taskId) => handleListTaskDeleted(board.id, list.id, taskId)}
+                            onListComplete={() => handleListCompleted(list.id)}
+                        />
+                    ))}
+                </SortableContext> 
+            </DndContext> 
 
+        </div>
+    );
+};
 BoardSelected.propTypes = {
     boards: PropTypes.array,
     boardToShow: PropTypes.number,

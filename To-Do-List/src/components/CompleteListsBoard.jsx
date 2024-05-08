@@ -1,12 +1,23 @@
+import { useState, useEffect } from "react";
 import CompleteList from "./CompleteList"
-import PropTypes from 'prop-types'; 
 
-const CompleteListsBoard = ({listsCompleted}) => {
+const CompleteListsBoard = () => {
+
+  // eslint-disable-next-line no-unused-vars
+  const [completeList, setCompleteList] = useState(() => {
+    let savedLists = localStorage.getItem('CompleteList');
+    return savedLists ? JSON.parse(savedLists) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('CompleteList', JSON.stringify(completeList));
+  }, [completeList]);
+
   return (
     <div className={`list-container`}>
       <h1>Mis listas completadas</h1>
       <div>       
-      {listsCompleted && listsCompleted.map((list) => (
+      {completeList && completeList.map((list) => (
             <CompleteList
             key={list.id} 
             initialListName={list.name} 
@@ -17,9 +28,5 @@ const CompleteListsBoard = ({listsCompleted}) => {
     </div>
   )
 }
-
-CompleteListsBoard.propTypes = {
-  listsCompleted: PropTypes.array,
-};
 
 export default CompleteListsBoard
