@@ -22,29 +22,22 @@ function App() {
 
   const handleSidebarItemClick = (item) => {
     const itemId = item.id;
-    if(itemId==3 && item!==null)
-    {
+    if (itemId == 3 && item !== null) {
       setClickAddList(prevCounter => prevCounter + 1);
     }
-    if(itemId==2 && item!==null)
-    {
+    if (itemId == 2 && item !== null) {
       setClickAddBoard(prevCounter => prevCounter + 1);
     }
-
   };
 
   useEffect(() => {
     const index = (boards.findIndex(board => board.boardSelected === true));
-
-    if(index !== -1)
-    {
+    if (index !== -1) {
       setBoardInUseIndex(index);
     }
-    else
-    {
+    else {
       setBoardInUseIndex(0);
     }
-
   }, [boards]);
 
   useEffect(() => {
@@ -62,7 +55,7 @@ function App() {
   useEffect(() => {
     if (clickAddBoard !== null && clickAddBoard !== 0) {
       const newBoard = { id: generateUniqueId(), name: 'Titulo de la Tabla', lists: [], boardSelected: true };
-      
+
       if (boards.length > 0) {
         const updatedBoards = boards.map(board => ({ ...board, boardSelected: false }));
         // eslint-disable-next-line no-unused-vars
@@ -78,15 +71,14 @@ function App() {
         },
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickAddBoard]);
 
   useEffect(() => {
     if (clickAddList !== null && clickAddList !== 0) {
       setBoards(prevBoards => {
 
-        if(prevBoards.length < 1 || boardInUseIndex === -1)
-        {
+        if (prevBoards.length < 1 || boardInUseIndex === -1) {
           toast.error("No hay un tablero seleccionado", {
             position: "top-right",
             style: {
@@ -102,47 +94,29 @@ function App() {
         return updatedBoards;
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickAddList]);
-
-  const handleBoardToShow = (idToShow) => {
-    setBoards((currentBoards) => {
-      const updatedBoards = currentBoards.map(board => {
-        if (board.id === idToShow) {
-          return { ...board, boardSelected: true };
-        } else {
-          return { ...board, boardSelected: false };
-        }
-      });
-      return updatedBoards;
-    });
-  };
-
 
   return (
     <div className='w-full h-screen bg-back object-cover flex items-center'>
       <Router>
-        <Sidebar 
-          onSidebarItemClick={handleSidebarItemClick} 
+        <Sidebar
+          onSidebarItemClick={handleSidebarItemClick}
         />
-        <Toaster 
+        <Toaster
           position='top-right'
         />
         <Routes>
           <Route path="/inicio"
-            element={<BoardSelected 
-              boardToShow={boardInUseIndex}
-            />} 
+            element={<BoardSelected />}
           />
           <Route path="/completadas"
-            element={<CompleteLists 
-              listsCompleted={completeList}  
-            />} 
+            element={<CompleteLists
+              listsCompleted={completeList}
+            />}
           />
           <Route path="/mis-tableros"
-            element={<MyBoards
-              onBoardSelect={(boardId) => handleBoardToShow(boardId)}
-            />} 
+            element={<MyBoards />}
           />
         </Routes>
       </Router>

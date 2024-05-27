@@ -2,8 +2,9 @@ import BoardSelection from "./BoardSelection"
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 import {
-  DndContext, 
+  DndContext,
   closestCenter,
   KeyboardSensor,
   PointerSensor,
@@ -19,11 +20,12 @@ import {
 //import toast from "react-hot-toast";
 
 
-const MyBoards = ({ onBoardSelect }) => {
+const MyBoards = () => {
   const [boards, setBoards] = useState(() => {
     let savedBoards = localStorage.getItem('Board');
     return savedBoards ? JSON.parse(savedBoards) : [];
   });
+
   useEffect(() => {
     localStorage.setItem('Board', JSON.stringify(boards));
   }, [boards]);
@@ -35,17 +37,18 @@ const MyBoards = ({ onBoardSelect }) => {
     })
   );
 
+  const navigate = useNavigate();
   const getItemPos = id => boards.findIndex(board => board.id === id);
 
   function handleDragEnd(event) {
-    const {active, over} = event;
-    
-    if(active.id === over.id) return;
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
 
     setBoards((boards) => {
-      const originalPos= getItemPos(active.id);
+      const originalPos = getItemPos(active.id);
       const newPos = getItemPos(over.id);
-      
+
       return arrayMove(boards, originalPos, newPos);
     });
   }
@@ -53,15 +56,15 @@ const MyBoards = ({ onBoardSelect }) => {
   const handleBoardDeleted = (idToDelete) => {
     setBoards((currentBoards) => {
       const indexToDelete = currentBoards.findIndex(board => board.id === idToDelete);
-  
+
       if (indexToDelete === -1) {
         return currentBoards;
       }
-  
+
       const updatedBoards = [...currentBoards];
       const boardToDelete = updatedBoards[indexToDelete];
       updatedBoards.splice(indexToDelete, 1);
-      
+
       if (boardToDelete.boardSelected) {
         // If the board to delete has boardSelected as true, set boardSelected of the first board to true
         if ((updatedBoards.length > 0) && !updatedBoards[0].boardSelected) {
@@ -69,41 +72,60 @@ const MyBoards = ({ onBoardSelect }) => {
         }
       }
       toast.success("Tablero eliminado con exito", {
-        icon : '🗑️',
+        icon: '🗑️',
         position: "top-right",
         style: {
           background: '#212121',
           color: "white"
         },
       });
-  
+
       return updatedBoards;
     });
   };
 
+  const handleBoardToShow = (idToShow) => {
+    setBoards((currentBoards) => {
+      console.log(idToShow)
+      const updatedBoards = currentBoards.map(board => {
+        if (board.id === idToShow) {
+          return { ...board, boardSelected: true };
+        } else {
+          return { ...board, boardSelected: false };
+        }
+      });
+      return updatedBoards;
+    });
+  };
+
+  const handleClickBoardToShow = (boardId) => {
+    handleBoardToShow(boardId);
+    //navigate('/inicio');
+  }
+
   return (
     <div className={`list-container`}>
       <h1 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3'>Mis Tableros</h1>
-      <DndContext 
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      >     
-        <SortableContext 
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
           items={boards}
           strategy={rectSwappingStrategy}
         >
           {boards.map(board =>
-          <BoardSelection
-          key={board.id} 
-          id={board.id} 
-          boardName={board.name}     
-          boardLists={board.lists}
-          onBoardSelect={() => onBoardSelect(board.id)}
-          onBoardDelete={() => handleBoardDeleted(board.id)}
-          />)}
-        </SortableContext>  
-      </DndContext>      
+            <BoardSelection
+              key={board.id}
+              id={board.id}
+              boardName={board.name}
+              boardLists={board.lists}
+              onBoardSelect={() => handleClickBoardToShow(board.id)}
+              onBoardDelete={() => handleBoardDeleted(board.id)}
+            />)}
+        </SortableContext>
+      </DndContext>
     </div>
   )
 }

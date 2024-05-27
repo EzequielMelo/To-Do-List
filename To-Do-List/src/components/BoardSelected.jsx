@@ -17,7 +17,8 @@ import {
   rectSwappingStrategy,
 } from '@dnd-kit/sortable';
 
-const BoardSelected = ({ boardToShow }) => {
+const BoardSelected = () => {
+  const [boardInUseIndex, setBoardInUseIndex] = useState(0)
   const [boards, setBoards] = useState(() => {
     let savedBoards = localStorage.getItem('Board');
     return savedBoards ? JSON.parse(savedBoards) : [];
@@ -27,6 +28,18 @@ const BoardSelected = ({ boardToShow }) => {
     let savedLists = localStorage.getItem('CompleteList');
     return savedLists ? JSON.parse(savedLists) : [];
   });
+
+  useEffect(() => {
+    const index = (boards.findIndex(board => board.boardSelected === true));
+    console.log(index)
+    if (index !== -1) {
+      setBoardInUseIndex(index);
+
+    }
+    else {
+      setBoardInUseIndex(0);
+    }
+  }, [boards]);
 
   useEffect(() => {
     localStorage.setItem('Board', JSON.stringify(boards));
@@ -43,6 +56,7 @@ const BoardSelected = ({ boardToShow }) => {
     })
   );
 
+
   const getItemPos = (board, id) => board.lists.findIndex(boardList => boardList.id === id);
 
   function handleDragEnd(event) {
@@ -56,7 +70,7 @@ const BoardSelected = ({ boardToShow }) => {
       const updatedBoards = [...boards];
 
       // Obtenemos el tablero activo
-      const targetBoard = updatedBoards[boardToShow];
+      const targetBoard = updatedBoards[boardInUseIndex];
 
       // Obtenemos la posición original y la nueva posición de la lista dentro del mismo tablero
       const originalPos = getItemPos(targetBoard, active.id);
@@ -73,7 +87,7 @@ const BoardSelected = ({ boardToShow }) => {
   const [customText, setCustomText] = useState('');
 
   // Verificar si hay una board seleccionada
-  const isBoardSelected = boardToShow !== -1 && boards.length > 0;
+  const isBoardSelected = boardInUseIndex !== -1 && boards.length > 0;
 
   // Si no hay una board seleccionada, mostrar un mensaje
   if (!isBoardSelected) {
@@ -81,7 +95,7 @@ const BoardSelected = ({ boardToShow }) => {
   }
 
   // Si hay una board seleccionada, obtener la board actual
-  const board = boards[boardToShow];
+  const board = boards[boardInUseIndex];
 
   const handleClick = () => {
     setIsEditing(true);
@@ -94,7 +108,7 @@ const BoardSelected = ({ boardToShow }) => {
   const handleNameChange = (boardId, newName) => {
     setBoards((currentBoards) => {
       const updatedBoards = [...currentBoards];
-      updatedBoards[boardToShow].name = newName;
+      updatedBoards[boardInUseIndex].name = newName;
 
       return updatedBoards;
     });
@@ -113,13 +127,13 @@ const BoardSelected = ({ boardToShow }) => {
   const handleListNameChange = (idToChange, newName) => {
     setBoards((currentBoards) => {
       const updatedBoards = [...currentBoards];
-      const indexToChange = updatedBoards[boardToShow].lists.findIndex(list => list.id === idToChange);
+      const indexToChange = updatedBoards[boardInUseIndex].lists.findIndex(list => list.id === idToChange);
 
       if (indexToChange === -1) {
         return currentBoards;
       }
 
-      updatedBoards[boardToShow].lists[indexToChange].name = newName;
+      updatedBoards[boardInUseIndex].lists[indexToChange].name = newName;
 
       return updatedBoards;
     });
@@ -129,13 +143,13 @@ const BoardSelected = ({ boardToShow }) => {
     setBoards((currentBoards) => {
 
       const updatedBoards = [...currentBoards];
-      const indexToDelete = updatedBoards[boardToShow].lists.findIndex(list => list.id === idToDelete);
+      const indexToDelete = updatedBoards[boardInUseIndex].lists.findIndex(list => list.id === idToDelete);
 
       if (indexToDelete === -1) {
         return currentBoards;
       }
 
-      updatedBoards[boardToShow].lists = updatedBoards[boardToShow].lists.filter((list, index) => index !== indexToDelete);
+      updatedBoards[boardInUseIndex].lists = updatedBoards[boardInUseIndex].lists.filter((list, index) => index !== indexToDelete);
 
       return updatedBoards;
 
@@ -219,7 +233,7 @@ const BoardSelected = ({ boardToShow }) => {
   const handleListCompleted = (idToComplete) => {
     setBoards((currentBoards) => {
       // Encuentra el tablero en uso
-      const board = currentBoards[boardToShow];
+      const board = currentBoards[boardInUseIndex];
 
       // Encuentra la lista a completar
       const listIndex = board.lists.findIndex(list => list.id === idToComplete);
@@ -252,7 +266,7 @@ const BoardSelected = ({ boardToShow }) => {
 
       // Actualiza el tablero en uso en boards
       const updatedBoards = [...currentBoards];
-      updatedBoards[boardToShow] = updatedBoard;
+      updatedBoards[boardInUseIndex] = updatedBoard;
 
       return updatedBoards;
     });
