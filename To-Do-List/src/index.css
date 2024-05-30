@@ -43,7 +43,10 @@
   }
   .list-container {
     @apply bg-glass h-[98%] w-[92%] rounded-3xl ml-6 p-4 
-    border transition-all duration-500 border-solid border-bhind relative mr-5 overflow-y-auto scrollbar
+    border transition-all duration-500 border-solid border-bhind mr-5 overflow-y-auto scrollbar relative;
+  }
+  .sticky-div {
+    @apply bg-glass sticky bottom-0 right-8 w-48 ml-auto hover:scale-110 cursor-pointer transition-all duration-300 rounded-3xl p-2
   }
 }
 

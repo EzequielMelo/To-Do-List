@@ -2,7 +2,8 @@ import BoardSelection from "./BoardSelection"
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
 import {
   DndContext,
   closestCenter,
@@ -37,7 +38,7 @@ const MyBoards = () => {
     })
   );
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const getItemPos = id => boards.findIndex(board => board.id === id);
 
   function handleDragEnd(event) {
@@ -126,7 +127,14 @@ const MyBoards = () => {
             />)}
         </SortableContext>
       </DndContext>
-    </div>
+      <div className='sticky-div flex items-center justify-center gap-2'>
+        <MdOutlineDashboardCustomize
+          className=" size-7 text-slate-600"
+
+        />
+        <h3 className='text-lg text-slate-600'>Nuevo tablero</h3>
+      </div >
+    </div >
   )
 }
 
