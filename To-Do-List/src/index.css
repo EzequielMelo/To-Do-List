@@ -46,7 +46,7 @@
     border transition-all duration-500 border-solid border-bhind mr-5 overflow-y-auto scrollbar relative;
   }
   .sticky-div {
-    @apply bg-glass sticky bottom-0 right-8 w-48 ml-auto hover:scale-110 cursor-pointer transition-all duration-300 rounded-3xl p-2
+    @apply bg-glass fixed bottom-8 right-12 w-48 ml-auto hover:scale-110 cursor-pointer transition-all duration-300 rounded-3xl p-2
   }
 }
 

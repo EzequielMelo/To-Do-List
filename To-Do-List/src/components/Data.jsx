@@ -2,9 +2,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { RxDashboard } from "react-icons/rx"
 import { FiLogOut } from "react-icons/fi"
 import { FaCheckDouble } from "react-icons/fa6";
-import { TbListCheck } from "react-icons/tb";
-import { MdOutlineDashboardCustomize } from "react-icons/md";
-
+import { FaListUl } from "react-icons/fa6";
 
 export const datas = [
   {
@@ -15,14 +13,15 @@ export const datas = [
   },
   {
     id: 2,
-    icon: <MdOutlineDashboardCustomize />,
-    text: "Nuevo Tablero",
+    icon: <FaListUl />,
+    text: "Tablero en uso",
     href: "/inicio"
   },
   {
     id: 3,
-    icon: <TbListCheck />,
-    text: "Nueva Lista",
+    icon: <RxDashboard />,
+    text: "Mis Tableros",
+    href: "/mis-tableros"
   },
   {
     id: 4,
@@ -32,15 +31,8 @@ export const datas = [
   },
   {
     id: 5,
-    icon: <RxDashboard />,
-    text: "Mis Tableros",
-    href: "/mis-tableros"
-  },
-  {
-    id: 6,
     icon: <FiLogOut />,
     text: "Salir",
     href: "/salir"
   },
-
 ];

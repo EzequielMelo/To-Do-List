@@ -2,6 +2,7 @@ import List from './List';
 import { MdEdit } from "react-icons/md";
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { TbListCheck } from "react-icons/tb";
 import {
   DndContext,
   closestCenter,
@@ -272,6 +273,35 @@ const BoardSelected = () => {
     });
   };
 
+  function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  const handleAddList = () => {
+    setBoards(prevBoards => {
+
+      /*
+      if (prevBoards.length < 1 || boardInUseIndex === -1) {
+        toast.error("No hay un tablero seleccionado", {
+          position: "top-right",
+          style: {
+            background: '#212121',
+            color: "white"
+          },
+        });
+        return prevBoards;
+      }
+      */
+      const updatedBoards = [...prevBoards];
+      updatedBoards[boardInUseIndex].lists.push({ id: generateUniqueId(), name: 'Titulo de la Lista', tasks: [] });
+      return updatedBoards;
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
+
+
+
   return (
     <div className={`list-container`}>
       {!isEditing ? (
@@ -304,7 +334,12 @@ const BoardSelected = () => {
           ))}
         </SortableContext>
       </DndContext>
-
+      <div className='sticky-div flex items-center justify-center gap-2' onClick={() => handleAddList()}>
+        <TbListCheck
+          className=" size-7 text-slate-600"
+        />
+        <h3 className='text-lg text-slate-600'>Nueva lista</h3>
+      </div >
     </div>
   );
 };

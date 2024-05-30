@@ -16,13 +16,13 @@ const CompleteListsBoard = () => {
   return (
     <div className={`list-container`}>
       <h1>Mis listas completadas</h1>
-      <div>       
-      {completeList && completeList.map((list) => (
-            <CompleteList
-            key={list.id} 
-            initialListName={list.name} 
+      <div>
+        {completeList && completeList.map((list) => (
+          <CompleteList
+            key={list.id}
+            initialListName={list.name}
             tasks={list.tasks}
-            />
+          />
         ))}
       </div>
     </div>

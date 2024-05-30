@@ -85,6 +85,29 @@ const MyBoards = () => {
     });
   };
 
+  function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  const handleAddBoard = () => {
+    const newBoard = { id: generateUniqueId(), name: 'Titulo de la Tabla', lists: [], boardSelected: true };
+
+    if (boards.length > 0) {
+      const updatedBoards = boards.map(board => ({ ...board, boardSelected: false }));
+      // eslint-disable-next-line no-unused-vars
+      setBoards(prevBoards => [...updatedBoards, newBoard]);
+    } else {
+      setBoards(prevBoards => [...prevBoards, newBoard]);
+    }
+    toast.success("Tablero creado con exito", {
+      position: "top-right",
+      style: {
+        background: '#212121',
+        color: "white"
+      },
+    });
+  };
+
   const handleBoardToShow = (idToShow) => {
     setBoards((currentBoards) => {
       console.log(idToShow)
@@ -127,10 +150,9 @@ const MyBoards = () => {
             />)}
         </SortableContext>
       </DndContext>
-      <div className='sticky-div flex items-center justify-center gap-2'>
+      <div className='sticky-div flex items-center justify-center gap-2' onClick={() => handleAddBoard()}>
         <MdOutlineDashboardCustomize
           className=" size-7 text-slate-600"
-
         />
         <h3 className='text-lg text-slate-600'>Nuevo tablero</h3>
       </div >
@@ -146,100 +168,3 @@ MyBoards.propTypes = {
 };
 
 export default MyBoards
-
-/*
-
-const MyBoards = ({ onBoardSelect, onBoardDelete }) => {
-  const [boards, setBoards] = useState([]);
-
-  useEffect(() => {
-    // Cargar los datos de los tableros desde el local storage u otra fuente
-    const savedBoards = localStorage.getItem('Board');
-    if (savedBoards) {
-      setBoards(JSON.parse(savedBoards));
-    }
-  }, []);
-
-  console.log(boards)
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
-
-  function handleDragEnd(event) {
-    const {active, over} = event;
-    
-    if (active.id !== over.id) {
-      setBoards((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-        
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
-  }
-
-  return (
-    <div className={`list-container`}>
-      <h1 className='flex bg-slate-600 bg-opacity-60 rounded-full w-fit px-[10px] py-[2px] mb-3'>Mis Tableros</h1>
-      <DndContext 
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      >     
-        <SortableContext 
-          boards={boards}
-          strategy={verticalListSortingStrategy}
-        >
-          {boards.map((board) => <BoardSelection
-          key={board.id} 
-          boardName={board.name}     
-          boardLists={board.lists}
-          onBoardSelect={() => onBoardSelect(board.id)}
-          onBoardDelete={() => onBoardDelete(board.id)}
-          />)}
-        </SortableContext>  
-      </DndContext>      
-    </div>
-  )
-
-  {boards && boards.map((board) => (
-    <BoardSelection
-    key={board.id} 
-    boardName={board.name}     
-    boardLists={board.lists}
-    onBoardSelect={() => onBoardSelect(board.id)}
-    onBoardDelete={() => onBoardDelete(board.id)}
-    />
-  ))}
-
-  return (
-    <div>
-    <DndContext 
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext 
-        items={items}
-        strategy={verticalListSortingStrategy}
-      >
-        {items.map(id => <SortableItem key={id} id={id} />)}
-      </SortableContext>
-    </DndContext>
-    <button onClick={addNewBoard}>Agregar nueva board</button>
-    </div>
-  );
-  
-}
-MyBoards.propTypes = {
-  boards: PropTypes.array,
-  onBoardSelect: PropTypes.func,
-  onBoardDelete: PropTypes.func,
-};
-
-export default MyBoards
-*/

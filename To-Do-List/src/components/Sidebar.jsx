@@ -5,21 +5,15 @@ import SideBarData from "./SideBarData";
 import PropTypes from 'prop-types';
 
 
-const Sidebar = ({ onSidebarItemClick }) => {
+const Sidebar = () => {
   const [toggle, setToggle] = useState(false)
-  const [clickedItem, setClickedItem] = useState(null)
 
-  const handleItemClick = (item) => {
-    setClickedItem(item);
-    if (onSidebarItemClick) {
-      onSidebarItemClick(item);
-    }
-  };
+
 
   return (
     <div className={`${toggle ? "w-[5.8rem]" : ""} sidebar-container`}>
       <UserProfile toggle={toggle} />
-      <SideBarData toggle={toggle} onItemClick={handleItemClick} />
+      <SideBarData toggle={toggle} />
       <div className="absolute top-[7rem] flex justify-center items-center
         -left-5 w-10 h-10 bg-glass rounded-full cursor-pointer"
         onClick={() => setToggle(!toggle)}>
