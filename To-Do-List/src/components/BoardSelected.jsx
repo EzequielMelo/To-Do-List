@@ -19,7 +19,10 @@ import {
 } from '@dnd-kit/sortable';
 
 const BoardSelected = () => {
-  const [boardInUseIndex, setBoardInUseIndex] = useState(0)
+  const [boardInUseIndex, setBoardInUseIndex] = useState(() => {
+    let savedBoards = JSON.parse(localStorage.getItem('Board'));
+    return savedBoards ? savedBoards.findIndex(board => board.boardSelected) : 0;
+  });
   const [boards, setBoards] = useState(() => {
     let savedBoards = localStorage.getItem('Board');
     return savedBoards ? JSON.parse(savedBoards) : [];
@@ -31,13 +34,10 @@ const BoardSelected = () => {
   });
 
   useEffect(() => {
-    const index = (boards.findIndex(board => board.boardSelected === true));
-    console.log(index)
+    const index = boards.findIndex(board => board.boardSelected);
     if (index !== -1) {
       setBoardInUseIndex(index);
-
-    }
-    else {
+    } else {
       setBoardInUseIndex(0);
     }
   }, [boards]);
@@ -56,7 +56,6 @@ const BoardSelected = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
 
   const getItemPos = (board, id) => board.lists.findIndex(boardList => boardList.id === id);
 

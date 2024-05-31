@@ -2,7 +2,7 @@ import BoardSelection from "./BoardSelection"
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import {
   DndContext,
@@ -22,6 +22,7 @@ import {
 
 
 const MyBoards = () => {
+  const navigate = useNavigate();
   const [boards, setBoards] = useState(() => {
     let savedBoards = localStorage.getItem('Board');
     return savedBoards ? JSON.parse(savedBoards) : [];
@@ -38,7 +39,6 @@ const MyBoards = () => {
     })
   );
 
-  //const navigate = useNavigate();
   const getItemPos = id => boards.findIndex(board => board.id === id);
 
   function handleDragEnd(event) {
@@ -110,7 +110,6 @@ const MyBoards = () => {
 
   const handleBoardToShow = (idToShow) => {
     setBoards((currentBoards) => {
-      console.log(idToShow)
       const updatedBoards = currentBoards.map(board => {
         if (board.id === idToShow) {
           return { ...board, boardSelected: true };
@@ -120,11 +119,13 @@ const MyBoards = () => {
       });
       return updatedBoards;
     });
+    setTimeout(() => {
+      navigate('/inicio');
+    }, 100);
   };
 
   const handleClickBoardToShow = (boardId) => {
     handleBoardToShow(boardId);
-    //navigate('/inicio');
   }
 
   return (
