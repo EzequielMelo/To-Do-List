@@ -77,7 +77,7 @@ const List = ({ id, initialListName, onTittleChange, onListDeleted, tasks, taskT
           :
           (<input className='bg-slate-600 bg-opacity-60 rounded-2xl w-full px-[10px] py-[2px]' type="text" value={customText} onChange={handleChange} onBlur={handleTittleBlur} autoFocus />)}
       </div>
-      <div>
+      <>
         <ul>
           {tasks && tasks.map((task) => (
             <li className="flex bg-slate-600 bg-opacity-60 rounded-2xl px-[10px] py-[2px] w-full max-w-80 mb-1 justify-between"
@@ -92,7 +92,7 @@ const List = ({ id, initialListName, onTittleChange, onListDeleted, tasks, taskT
             </li>
           ))}
         </ul>
-      </div>
+      </>
       <div className='flex w-full'>
         <input name="name" className='bg-slate-600 bg-opacity-60 rounded-2xl w-full max-w-80 px-[10px] py-[2px] my-2' value={newTask.name} onChange={handleInputChange}></input>
       </div>

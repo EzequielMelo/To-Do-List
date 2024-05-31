@@ -295,11 +295,7 @@ const BoardSelected = () => {
       updatedBoards[boardInUseIndex].lists.push({ id: generateUniqueId(), name: 'Titulo de la Lista', tasks: [] });
       return updatedBoards;
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
-
-
 
   return (
     <div className={`list-container`}>
