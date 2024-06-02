@@ -67,7 +67,6 @@ const MyBoards = () => {
       updatedBoards.splice(indexToDelete, 1);
 
       if (boardToDelete.boardSelected) {
-        // If the board to delete has boardSelected as true, set boardSelected of the first board to true
         if ((updatedBoards.length > 0) && !updatedBoards[0].boardSelected) {
           updatedBoards[0].boardSelected = true;
         }
@@ -121,7 +120,7 @@ const MyBoards = () => {
     });
     setTimeout(() => {
       navigate('/inicio');
-    }, 100);
+    }, 50);
   };
 
   const handleClickBoardToShow = (boardId) => {

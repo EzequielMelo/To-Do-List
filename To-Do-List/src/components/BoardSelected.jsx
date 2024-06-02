@@ -232,10 +232,8 @@ const BoardSelected = () => {
 
   const handleListCompleted = (idToComplete) => {
     setBoards((currentBoards) => {
-      // Encuentra el tablero en uso
       const board = currentBoards[boardInUseIndex];
 
-      // Encuentra la lista a completar
       const listIndex = board.lists.findIndex(list => list.id === idToComplete);
       if (listIndex === -1) {
         return currentBoards;
@@ -247,9 +245,7 @@ const BoardSelected = () => {
         if (completedList.tasks.length >= 1) {
           console.log("entro")
           let newCompleteList = [...prevCompleteLists, completedList];
-          // Verificar si se supera el límite máximo
           if (newCompleteList.length > 12) {
-            // Eliminar las primeras listas para mantener el tamaño máximo
             newCompleteList = newCompleteList.slice(newCompleteList.length - 12);
           }
           return newCompleteList;
@@ -257,14 +253,10 @@ const BoardSelected = () => {
           return prevCompleteLists;
         }
       });
-
-      // Elimina la lista del tablero en uso
       const updatedBoard = {
         ...board,
         lists: board.lists.filter((_, index) => index !== listIndex)
       };
-
-      // Actualiza el tablero en uso en boards
       const updatedBoards = [...currentBoards];
       updatedBoards[boardInUseIndex] = updatedBoard;
 
